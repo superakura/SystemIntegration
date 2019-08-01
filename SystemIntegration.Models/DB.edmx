@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SystemIntegrationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--生成过程中发现错误:
+警告 6013: 表/视图“SystemIntegration.dbo.LogInfo”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
+        <EntityType Name="LogInfo">
+          <Property Name="LogID" Type="int" />
+          <Property Name="LogType" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogSysID" Type="int" />
+          <Property Name="LogIP" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogDateTime" Type="datetime" />
+          <Property Name="LogPersonNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogPersonName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogCol1" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogCol2" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogCol3" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogCol4" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogCol5" Type="nvarchar" MaxLength="500" />
+        </EntityType>-->
+        <EntityType Name="SysInfo">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SysName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SysDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="SysIcon" Type="nvarchar" MaxLength="100" />
+          <Property Name="ContactPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="SysState" Type="nvarchar" MaxLength="100" />
+          <Property Name="SysType" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="SysOrder" Type="float" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserNum" />
+          </Key>
+          <Property Name="UserNum" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserState" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserSys">
+          <Key>
+            <PropertyRef Name="UserSysID" />
+          </Key>
+          <Property Name="UserSysID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="SysID" Type="int" />
+          <Property Name="BindState" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginPwd" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserSysOrder" Type="float" />
+        </EntityType>
+        <EntityContainer Name="SystemIntegrationModelStoreContainer">
+          <EntitySet Name="SysInfo" EntityType="Self.SysInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSys" EntityType="Self.UserSys" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SystemIntegrationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SysInfo">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SysName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SysIcon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysState" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SysOrder" Type="Double" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserNum" />
+          </Key>
+          <Property Name="UserNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserState" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserSys">
+          <Key>
+            <PropertyRef Name="UserSysID" />
+          </Key>
+          <Property Name="UserSysID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SysID" Type="Int32" />
+          <Property Name="BindState" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginPwd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserSysOrder" Type="Double" />
+        </EntityType>
+        <EntityContainer Name="SystemIntegrationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SysInfo" EntityType="Self.SysInfo" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+          <EntitySet Name="UserSys" EntityType="Self.UserSys" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SystemIntegrationModelStoreContainer" CdmEntityContainer="SystemIntegrationEntities">
+          <EntitySetMapping Name="SysInfo">
+            <EntityTypeMapping TypeName="SystemIntegrationModel.SysInfo">
+              <MappingFragment StoreEntitySet="SysInfo">
+                <ScalarProperty Name="SysID" ColumnName="SysID" />
+                <ScalarProperty Name="SysName" ColumnName="SysName" />
+                <ScalarProperty Name="SysDesc" ColumnName="SysDesc" />
+                <ScalarProperty Name="SysIcon" ColumnName="SysIcon" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="SysState" ColumnName="SysState" />
+                <ScalarProperty Name="SysType" ColumnName="SysType" />
+                <ScalarProperty Name="LoginUrl" ColumnName="LoginUrl" />
+                <ScalarProperty Name="SysOrder" ColumnName="SysOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="SystemIntegrationModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserNum" ColumnName="UserNum" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserState" ColumnName="UserState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSys">
+            <EntityTypeMapping TypeName="SystemIntegrationModel.UserSys">
+              <MappingFragment StoreEntitySet="UserSys">
+                <ScalarProperty Name="UserSysID" ColumnName="UserSysID" />
+                <ScalarProperty Name="UserNum" ColumnName="UserNum" />
+                <ScalarProperty Name="SysID" ColumnName="SysID" />
+                <ScalarProperty Name="BindState" ColumnName="BindState" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="LoginPwd" ColumnName="LoginPwd" />
+                <ScalarProperty Name="UserSysOrder" ColumnName="UserSysOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

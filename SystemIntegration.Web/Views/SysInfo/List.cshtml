@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<script>
+    $(function () {
+        $.post("/SysInfo/GetList", {}, function (data) {
+            console.log(data);
+        });
+    });
+</script>
