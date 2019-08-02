@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Integration.Mvc;
 using SystemIntegration.Repository;
+using SystemIntegration.Models;
 
 namespace SystemIntegration.Common
 {
@@ -46,7 +47,7 @@ namespace SystemIntegration.Common
                 .AsImplementedInterfaces();//自动以其实现的所有接口类型暴露（包括IDisposable接口）
 
             //注册泛型仓储
-            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
 
             //注册Controller
             //方法1：自己根据反射注册

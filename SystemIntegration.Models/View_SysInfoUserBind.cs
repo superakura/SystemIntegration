@@ -12,14 +12,18 @@ namespace SystemIntegration.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserSys
+    public partial class View_SysInfoUserBind
     {
-        public int UserSysID { get; set; }
-        public string UserNum { get; set; }
-        public Nullable<int> SysInfoID { get; set; }
+        public int SysInfoID { get; set; }
+        public string SysName { get; set; }
+        public string SysDesc { get; set; }
+        public string SysIcon { get; set; }
+        public string ContactPhone { get; set; }
+        public string ContactPerson { get; set; }
+        public string SysType { get; set; }
+        public string LoginUrl { get; set; }
+        public Nullable<double> SysOrder { get; set; }
         public string BindState { get; set; }
-        public string LoginName { get; set; }
-        public string LoginPwd { get; set; }
-        public Nullable<double> UserSysOrder { get; set; }
+        public string UserNum { get; set; }
     }
 }

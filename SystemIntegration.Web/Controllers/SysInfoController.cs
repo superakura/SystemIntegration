@@ -22,7 +22,8 @@ namespace SystemIntegration.Web.Controllers
 
         public JsonResult GetList()
         {
-            return Json(service.GetSysInfoList());
+            var userNum = Request.Form["userNum"];
+            return Json(service.GetSysInfoList(userNum));
         }
     }
 }

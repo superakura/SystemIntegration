@@ -25,8 +25,10 @@ namespace SystemIntegration.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<LogInfo> LogInfo { get; set; }
         public virtual DbSet<SysInfo> SysInfo { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserSys> UserSys { get; set; }
+        public virtual DbSet<View_SysInfoUserBind> View_SysInfoUserBind { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace SystemIntegration.Models
     
     public partial class SysInfo
     {
-        public int SysID { get; set; }
+        public int SysInfoID { get; set; }
         public string SysName { get; set; }
         public string SysDesc { get; set; }
         public string SysIcon { get; set; }

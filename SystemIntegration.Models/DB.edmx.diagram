@@ -4,10 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8e231aa1101e4a2e90760c7c72d0200d" Name="Diagram1">
-        <EntityTypeShape EntityType="SystemIntegrationModel.SysInfo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SystemIntegrationModel.UserInfo" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SystemIntegrationModel.UserSys" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+      <Diagram DiagramId="8e231aa1101e4a2e90760c7c72d0200d" Name="Diagram1" DisplayType="false">
+        <EntityTypeShape EntityType="SystemIntegrationModel.LogInfo" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SystemIntegrationModel.SysInfo" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SystemIntegrationModel.UserInfo" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SystemIntegrationModel.UserSys" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="SystemIntegrationModel.View_SysInfoUserBind" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

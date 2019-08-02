@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SystemIntegration.Models\SystemIntegration.Models.csproj">
+      <Project>{62e7f9f9-3ae9-4422-a2e0-d300373ab282}</Project>
+      <Name>SystemIntegration.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SystemIntegration.Repository\SystemIntegration.Repository.csproj">
       <Project>{0f833073-35ae-4113-bd95-ce516ef58e4a}</Project>
       <Name>SystemIntegration.Repository</Name>

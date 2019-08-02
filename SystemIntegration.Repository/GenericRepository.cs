@@ -10,11 +10,19 @@ namespace SystemIntegration.Repository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity:class
     {
-        SystemIntegrationEntities db = new SystemIntegrationEntities();
+        //private readonly SystemIntegrationEntities db=new SystemIntegrationEntities();
+        //private readonly DbSet<TEntity> dbset = new SystemIntegrationEntities().Set<TEntity>();
+        //public GenericRepository()
+        //{
+        //    db = new SystemIntegrationEntities();
+        //    this.dbset = db.Set<TEntity>();
+        //}
 
+        private SystemIntegrationEntities db;
         private DbSet<TEntity> dbset;
-        public GenericRepository()
+        public GenericRepository(SystemIntegrationEntities content)
         {
+            this.db = content;
             this.dbset = db.Set<TEntity>();
         }
 

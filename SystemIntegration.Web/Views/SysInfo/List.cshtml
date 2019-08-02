@@ -8,7 +8,7 @@
 
 <script>
     $(function () {
-        $.post("/SysInfo/GetList", {}, function (data) {
+        $.post("/SysInfo/GetList", {userNum:"00080509"}, function (data) {
             console.log(data);
         });
     });
