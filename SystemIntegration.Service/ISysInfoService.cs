@@ -12,10 +12,17 @@ namespace SystemIntegration.Service
     public interface ISysInfoService
     {
         /// <summary>
-        /// 返回所以系统信息，显示用户系统绑定状态
+        /// 返回用户绑定的系统信息
         /// </summary>
         /// <param name="userNum"></param>
         /// <returns></returns>
         List<VSysInfoList> GetSysInfoList(string userNum);
+
+        /// <summary>
+        /// 返回所以系统的信息，同时显示用户已经绑定系统的状态
+        /// </summary>
+        /// <param name="userNum"></param>
+        /// <returns></returns>
+        List<VSysInfoList> GetAllSysInfoList(string userNum);
     }
 }

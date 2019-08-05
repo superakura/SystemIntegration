@@ -15,12 +15,21 @@ namespace SystemIntegration.Web.Controllers
             this.service = service;
         }
         // GET: SysInfo
-        public ActionResult List()
+        public ViewResult List()
+        {
+            return View();
+        }
+        public ViewResult ListAll()
         {
             return View();
         }
 
-        public JsonResult GetList()
+        public JsonResult GetAllList()
+        {
+            var userNum = Request.Form["userNum"];
+            return Json(service.GetAllSysInfoList(userNum));
+        }
+        public JsonResult GetUserList()
         {
             var userNum = Request.Form["userNum"];
             return Json(service.GetSysInfoList(userNum));

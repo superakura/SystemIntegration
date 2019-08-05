@@ -1,44 +1,328 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>@ViewBag.Title</title>
+    @System.Web.Optimization.Styles.Render("~/Content/LayoutCss")
+    <!--[if lt IE 9]>
+        <script src="~/Scripts/html5shiv.js"></script>
+        <script src="~/Scripts/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .toast-center-center {
+            top: 50%;
+            left: 50%;
+            margin-top: -25px;
+            margin-left: -150px;
+        }
+
+        hr {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        label.error {
+            color: red;
+        }
+    </style>
 </head>
-<body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+<body class="hold-transition skin-blue sidebar-mini">
+    @System.Web.Optimization.Scripts.Render("~/bundles/LayoutJS")
+    <div class="wrapper">
+        <!-- 顶端信息 -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>菜单</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>单点登录平台</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li><p class="navbar-text" style="color:white" id="lblUserName"></p></li>
+                        <li><a href="#" id="btnLogOut"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 左侧导航 -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" id="menuList" data-widget="tree">
+                    <li class="active treeview menu-open">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>首页</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="~/SysInfo/List">
+                            <i class="fa fa-laptop"></i>
+                            <span>我的应用</span>
+                            <span class="pull-right-container">
+                                <span class="label label-primary pull-right">4</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="~/SysInfo/ListAll">
+                            <i class="fa fa-th"></i>
+                            <span>全部应用</span>
+                            <span class="pull-right-container">
+                                <span class="label label-warning pull-right">55</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i> <span>登录日志</span>
+                        </a>
+                    </li>
                 </ul>
-            </div>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- 主要内容区域 -->
+        <div class="content-wrapper">
+            <section class="content">
+                @RenderBody()
+            </section>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+
+        <!-- 底部区域 -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; @DateTime.Now.Year</strong> 大庆炼化公司 信息中心
         </footer>
+
+        <!-- 控制侧边栏 -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                    
+                </div>
+            </div>
+        </aside>
+
+        <!-- Add the sidebar's background. This div must be placed
+        immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+        <script>
+            //获取参数名
+            function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var reg_rewrite = new RegExp("(^|/)" + name + "/([^/]*)(/|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                var q = window.location.pathname.substr(1).match(reg_rewrite);
+                if (r != null) {
+                    return unescape(r[2]);
+                } else if (q != null) {
+                    return unescape(q[2]);
+                } else {
+                    return null;
+                }
+            }
+
+            //设置全局Ajax超时转跳
+            $.ajaxSetup({
+                statusCode: {
+                    499: function () {
+                        toastr.error("登录超时，请重新登录！", "提示");
+                        setTimeout(function () {
+                            window.location.href = "/Home/LoginFormAD";
+                        }, 1500);
+                    }
+                }
+            });
+
+            //获取cookie
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1);
+                    if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+                }
+                return "";
+            }
+
+            //设置cookie
+            function setCookie(cname, cvalue, exMinute) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exMinute * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+
+            //删除cookies
+            function delCookie(name) {
+                var exp = new Date();
+                exp.setTime(exp.getTime() - 1);
+                var cval = getCookie(name);
+                if (cval != null)
+                    document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+            }
+
+            //toastr提示控件设置
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-center-center",
+                "preventDuplicates": true,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            //json日期--时间格式化
+            function getJsonDateTime(jsonDate) {
+                if (jsonDate !== null) {
+                    var milliseconds = parseInt(jsonDate.replace(/\D/igm, ""));
+                    var date = new Date(milliseconds);
+                    return date.toLocaleString();
+                }
+                else {
+                    return "";
+                }
+            }
+
+            //json日期--分钟格式化
+            function getJsonDateTimeMinute(jsonDate) {
+                if (jsonDate !== null) {
+                    var milliseconds = parseInt(jsonDate.replace(/\D/igm, ""));
+                    var date = new Date(milliseconds);
+                    var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+                    var day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+                    var hour = date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours();
+                    var minute = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes();
+                    return date.getFullYear() + '-' + month + '-' + day + " " + hour + ":" + minute;
+                }
+                else {
+                    return "";
+                }
+            }
+
+            //json日期格式化
+            function getJsonDate(jsonDate) {
+                var milliseconds = parseInt(jsonDate.replace(/\D/igm, ""));
+                var date = new Date(milliseconds);
+                return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+            }
+
+            //json日期格式化short
+            function getJsonDateShort(jsonDate) {
+                if (jsonDate !== null) {
+                    var milliseconds = parseInt(jsonDate.replace(/\D/igm, ""));
+                    var date = new Date(milliseconds);
+                    var month = (date.getMonth() + 1);
+                    return date.getFullYear() + '-' + (month < 10 ? "0" + month : month) + '-' + (date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate());
+                }
+                else {
+                    return "";
+                }
+            }
+
+            $(document).ready(function () {
+                $('.sidebar-menu').tree();
+
+                //退出系统按钮
+                $("#btnLogOut").click(function () {
+                    Ewin.confirm({ message: "确认要退出系统吗？" }).on(function (e) {
+                        if (!e) {
+                            return;
+                        }
+                        else {
+                            window.location.href = "/Home/LoginOut";
+                        }
+                    });
+                });
+
+                ////从cookie中读取用户姓名和菜单
+                //$("#lblUserName").text("欢迎：" + decodeURIComponent(getCookie("cUserName")));
+
+                ////从数据库中获取菜单
+                //$.post("/Home/GetMenu", "", function (result) {
+                //    var menuInfo = "";
+                //    $.each(result, function (indexInArray, valueOfElement) {
+                //        var url = valueOfElement[4];
+                //        var icon = valueOfElement[3];
+                //        var text = valueOfElement[6];
+                //        var subMenu = valueOfElement[7];
+                //        if (subMenu.length > 0) {
+                //            menuInfo += "<li class='treeview'><a href='#'><i class='" + icon + "'></i> <span> " + text + " </span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span></a>";
+                //            var chidMenuInfo = "<ul class='treeview-menu'>";
+                //            $.each(subMenu, function (index, value) {
+                //                chidMenuInfo += "<li><a href='" + value.MenuUrl + "'><i class='" + value.MenuIcon + "'></i> <span> " + value.MenuName + " </span></a></li>";
+                //            });
+                //            chidMenuInfo += "</ul></li>";
+                //            menuInfo += chidMenuInfo;
+                //        }
+                //        else {
+                //            menuInfo += "<li><a href='" + url + "'><i class='" + icon + "'></i><span> " + text + " </span></a></li>";
+                //        }
+                //    });
+                //    $("#menuList").empty().append(menuInfo);
+                //    //设置菜单活动项
+                //    var string = document.location.pathname;
+                //    var url = string.split("/");
+                //    if ($('a[href*="' + "/" + url[1] + '"]').size() > 1) {
+                //        $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
+
+                //        $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parent().addClass('active').siblings().removeClass('active');
+                //    }
+                //    else {
+                //        $($('a[href*="' + "/" + url[1] + '"]')).parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
+
+                //        $($('a[href*="' + "/" + url[1] + '"]')).parent().addClass('active').siblings().removeClass('active');
+                //    }
+                //});
+
+                ////登录超时弹出提示并转跳到登录页面
+                //function CheckCookie() {
+                //    //console.log(getCookie(".ASPXAUTH"));
+                //    //console.log(getCookie("ASP.NET_SessionId"));
+                //    if (getCookie(".ASPXAUTH") === "") {
+                //        clearInterval(timerAjax);
+                //        alert("登录超时，请重新登录！");
+                //        window.location.href = "/Home/LoginFormAD";
+                //    }
+                //}
+                //var timerAjax = setInterval(CheckCookie, 10 * 1000);
+            });
+        </script>
     </div>
-
-
 </body>
 </html>

@@ -1,30 +1,42 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Optimization;
 
-namespace SystemIntegration.Web
+namespace TenderInfo.App_Start
 {
     public class BundleConfig
     {
-        // 有关捆绑的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new StyleBundle("~/Content/LayoutCss").Include(
+                "~/Content/bootstrap.min.css",
+                "~/Content/bootstrap-datetimepicker.min.css",
+                "~/bootstrap-table-dist/bootstrap-table.min.css",
+                "~/Content/font-awesome/css/font-awesome.min.css",
+                "~/AdminLTE-dist/css/AdminLTE.min.css",
+                "~/AdminLTE-dist/css/skins/_all-skins.min.css",
+                "~/Content/toastr.min.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+            bundles.Add(new ScriptBundle("~/bundles/LayoutJS").Include(
+                      "~/Scripts/jquery-3.3.1.min.js",
+                      "~/Scripts/jquery-form.js",
+                      "~/Scripts/jquery.validate.min.js",
+                      "~/Scripts/jquery.validate.messages_cn.js",
 
-            // 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
-            // 生产准备就绪，请使用 https://modernizr.com 上的生成工具仅选择所需的测试。
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                      "~/Scripts/bootstrap.min.js",
+                      "~/bootstrap-table-dist/bootstrap-table.min.js",
+                      "~/bootstrap-table-dist/locale/bootstrap-table-zh-CN.min.js",
+                      "~/Scripts/moment-with-locales.js",
+                      "~/Scripts/bootstrap-datetimepicker.min.js",
+                      "~/Scripts/bootstrap-datetimepicker.zh-CN.js",
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/AdminLTE-dist/js/adminlte.min.js",
+                      "~/AdminLTE-dist/js/demo.js",
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Scripts/toastr.min.js",
+                      "~/Scripts/Ewin.js"));
         }
     }
 }

@@ -14,9 +14,9 @@ namespace SystemIntegration.Service.ViewModels
         public string SysIcon { get; set; }
         public string ContactPhone { get; set; }
         public string ContactPerson { get; set; }
-        public string BindState { get; set; }//用户绑定状态
         public string SysType { get; set; }
         public string LoginUrl { get; set; }
-        public float SysOrder { get; set; }
+        public double? SysOrder { get; set; }
+        public string BindState { get; set; }//用户绑定状态
     }
 }

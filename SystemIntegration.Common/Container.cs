@@ -38,7 +38,7 @@ namespace SystemIntegration.Common
         {
             Assembly[] assemblies = ReflectionHelper.GetAllAssembliesWeb();
 
-            //注册仓储 && Service
+            //注册【仓储repository】 &&【 服务Service】
             builder.RegisterAssemblyTypes(assemblies)//程序集内所有具象类（concrete classes）
                 .Where(cc => cc.Name.EndsWith("Repository") |//筛选
                              cc.Name.EndsWith("Service"))
@@ -46,6 +46,8 @@ namespace SystemIntegration.Common
                 .Where(cc => cc.IsClass)//只要class型（主要为了排除值和interface类型）
                 .AsImplementedInterfaces();//自动以其实现的所有接口类型暴露（包括IDisposable接口）
 
+            //注入泛型仓储的链接类
+            builder.Register(o => new SystemIntegrationEntities()).InstancePerLifetimeScope();
             //注册泛型仓储
             builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
 
