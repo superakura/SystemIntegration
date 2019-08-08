@@ -11,11 +11,15 @@ namespace SystemIntegration.Service
 {
     public class LogInfoService : ILogInfoService
     {
-        private GenericRepository<LogInfo> _logInfoRepo;
+        private IGenericRepository<LogInfo> _logInfoRepo;
+        public LogInfoService(IGenericRepository<LogInfo> repo)
+        {
+            this._logInfoRepo = repo;
+        }
         public VPageBootstrapTable<LogInfo> GetLogInfoList(VLogListCondition input)
         {
             var list = _logInfoRepo.GetList();
-            if (input.QueryRole=="用户")
+            if (input.QueryRole == "用户")
             {
                 list = list.Where(w => w.LogPersonNum == input.userNum);
             }
@@ -27,11 +31,11 @@ namespace SystemIntegration.Service
             {
                 list = list.Where(w => w.LogIP.Contains(input.ip));
             }
-            if (!string.IsNullOrEmpty(input.userNum)&&input.QueryRole=="管理员")
+            if (!string.IsNullOrEmpty(input.userNum) && input.QueryRole == "管理员")
             {
-                list = list.Where(w => w.LogPersonNum==input.userNum);
+                list = list.Where(w => w.LogPersonNum.Contains(input.userNum));
             }
-            var rows = list.Skip(input.offset).Take(input.limit).OrderByDescending(o => o.LogDateTime).ToList();
+            var rows = list.OrderByDescending(o=>o.LogDateTime).Skip(input.offset).Take(input.limit).ToList();
             var total = list.Count();
             return new VPageBootstrapTable<LogInfo> { rows =rows , total = total };
         }

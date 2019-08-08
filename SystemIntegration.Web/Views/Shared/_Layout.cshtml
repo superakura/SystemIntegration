@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -61,37 +60,38 @@
         </header>
 
         <!-- 左侧导航 -->
-        <aside class="main-sidebar">
+        <aside class="main-sidebar" style="height:auto">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" id="menuList" data-widget="tree">
-                    <li class="active treeview menu-open">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>首页</span>
+                <ul class="sidebar-menu tree" data-widget="tree">
+                    <li class="active treeview">
+                        <a href="/Home/Index">
+                            <i class="fa fa-dashboard"></i>
+                            <span>首页</span>
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="~/SysInfo/List">
+                        <a href="/SysInfo/List">
                             <i class="fa fa-laptop"></i>
                             <span>我的应用</span>
                             <span class="pull-right-container">
-                                <span class="label label-primary pull-right">4</span>
+                                <span id="lblMySys" class="label label-primary pull-right">4</span>
                             </span>
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="~/SysInfo/ListAll">
+                        <a href="/SysInfo/ListAll">
                             <i class="fa fa-th"></i>
                             <span>全部应用</span>
                             <span class="pull-right-container">
-                                <span class="label label-warning pull-right">55</span>
+                                <span id="lblAllSys" class="label label-warning pull-right">55</span>
                             </span>
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-pie-chart"></i> <span>登录日志</span>
+                        <a href="/LogInfo/List">
+                            <i class="fa fa-pie-chart"></i> <span>日志查看</span>
                         </a>
                     </li>
                 </ul>
@@ -123,7 +123,7 @@
             <div class="tab-content">
                 <!-- Home tab content -->
                 <div class="tab-pane" id="control-sidebar-home-tab">
-                    
+
                 </div>
             </div>
         </aside>
@@ -256,7 +256,18 @@
             }
 
             $(document).ready(function () {
-                $('.sidebar-menu').tree();
+                function GetSysCount() {
+                    $.post("/SysInfo/GetSysCount", {  },
+                        function (data, textStatus, jqXHR) {
+                            //console.log(data);
+                            $("#lblMySys").text(data.SysUserCount);
+                            $("#lblAllSys").text(data.SysAllCount);
+                        }
+                    );
+                }
+                GetSysCount();
+
+                //$('.sidebar-menu').tree();
 
                 //退出系统按钮
                 $("#btnLogOut").click(function () {
@@ -270,57 +281,22 @@
                     });
                 });
 
-                ////从cookie中读取用户姓名和菜单
-                //$("#lblUserName").text("欢迎：" + decodeURIComponent(getCookie("cUserName")));
+                //从cookie中读取用户姓名和菜单
+                $("#lblUserName").text("欢迎：" + decodeURIComponent(getCookie("cUserName")));
 
-                ////从数据库中获取菜单
-                //$.post("/Home/GetMenu", "", function (result) {
-                //    var menuInfo = "";
-                //    $.each(result, function (indexInArray, valueOfElement) {
-                //        var url = valueOfElement[4];
-                //        var icon = valueOfElement[3];
-                //        var text = valueOfElement[6];
-                //        var subMenu = valueOfElement[7];
-                //        if (subMenu.length > 0) {
-                //            menuInfo += "<li class='treeview'><a href='#'><i class='" + icon + "'></i> <span> " + text + " </span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span></a>";
-                //            var chidMenuInfo = "<ul class='treeview-menu'>";
-                //            $.each(subMenu, function (index, value) {
-                //                chidMenuInfo += "<li><a href='" + value.MenuUrl + "'><i class='" + value.MenuIcon + "'></i> <span> " + value.MenuName + " </span></a></li>";
-                //            });
-                //            chidMenuInfo += "</ul></li>";
-                //            menuInfo += chidMenuInfo;
-                //        }
-                //        else {
-                //            menuInfo += "<li><a href='" + url + "'><i class='" + icon + "'></i><span> " + text + " </span></a></li>";
-                //        }
-                //    });
-                //    $("#menuList").empty().append(menuInfo);
-                //    //设置菜单活动项
-                //    var string = document.location.pathname;
-                //    var url = string.split("/");
-                //    if ($('a[href*="' + "/" + url[1] + '"]').size() > 1) {
-                //        $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
+                //设置菜单活动项
+                var string = document.location.pathname;
+                var url = string.split("/");
+                if ($('a[href*="' + "/" + url[1] + '"]').size() > 1) {
+                    $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
 
-                //        $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parent().addClass('active').siblings().removeClass('active');
-                //    }
-                //    else {
-                //        $($('a[href*="' + "/" + url[1] + '"]')).parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
+                    $('a[href="' + "/" + url[1] + "/" + url[2] + '"]').parent().addClass('active').siblings().removeClass('active');
+                }
+                else {
+                    $($('a[href*="' + "/" + url[1] + '"]')).parents('.treeview-menu').parent().addClass('active').siblings().removeClass('active');
 
-                //        $($('a[href*="' + "/" + url[1] + '"]')).parent().addClass('active').siblings().removeClass('active');
-                //    }
-                //});
-
-                ////登录超时弹出提示并转跳到登录页面
-                //function CheckCookie() {
-                //    //console.log(getCookie(".ASPXAUTH"));
-                //    //console.log(getCookie("ASP.NET_SessionId"));
-                //    if (getCookie(".ASPXAUTH") === "") {
-                //        clearInterval(timerAjax);
-                //        alert("登录超时，请重新登录！");
-                //        window.location.href = "/Home/LoginFormAD";
-                //    }
-                //}
-                //var timerAjax = setInterval(CheckCookie, 10 * 1000);
+                    $($('a[href*="' + "/" + url[1] + '"]')).parent().addClass('active').siblings().removeClass('active');
+                }
             });
         </script>
     </div>

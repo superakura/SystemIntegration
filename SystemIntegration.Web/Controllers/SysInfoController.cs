@@ -7,6 +7,7 @@ using SystemIntegration.Service;
 
 namespace SystemIntegration.Web.Controllers
 {
+    [Authorize(Roles = "登录")]
     public class SysInfoController : Controller
     {
         private ISysInfoService service;
@@ -24,15 +25,22 @@ namespace SystemIntegration.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult GetAllList()
         {
-            var userNum = Request.Form["userNum"];
-            return Json(service.GetAllSysInfoList(userNum));
+            return Json(service.GetAllSysInfoList(User.Identity.Name.ToString()));
         }
+
+        [HttpPost]
         public JsonResult GetUserList()
         {
-            var userNum = Request.Form["userNum"];
-            return Json(service.GetSysInfoList(userNum));
+            return Json(service.GetSysInfoList(User.Identity.Name.ToString()));
+        }
+
+        [HttpPost]
+        public JsonResult GetSysCount()
+        {
+            return Json(service.GetSysCount(User.Identity.Name.ToString()));
         }
     }
 }

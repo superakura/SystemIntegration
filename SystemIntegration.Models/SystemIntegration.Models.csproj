@@ -78,9 +78,6 @@
     <Compile Include="UserSys.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="View_SysInfoUserBind.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB.Context.tt">

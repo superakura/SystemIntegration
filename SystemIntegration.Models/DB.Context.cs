@@ -29,6 +29,5 @@ namespace SystemIntegration.Models
         public virtual DbSet<SysInfo> SysInfo { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserSys> UserSys { get; set; }
-        public virtual DbSet<View_SysInfoUserBind> View_SysInfoUserBind { get; set; }
     }
 }

@@ -24,5 +24,7 @@ namespace SystemIntegration.Service
         /// <param name="userNum"></param>
         /// <returns></returns>
         List<VSysInfoList> GetAllSysInfoList(string userNum);
+
+        VSysCount GetSysCount(string userNum);
     }
 }

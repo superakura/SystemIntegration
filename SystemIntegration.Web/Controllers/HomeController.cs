@@ -13,6 +13,11 @@ namespace SystemIntegration.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IUserInfoService _service;
+        public HomeController(IUserInfoService service)
+        {
+            this._service = service;
+        }
         /// <summary>
         /// 考勤系统验证函数，员工编号、考勤系统密码
         /// </summary>
@@ -90,14 +95,14 @@ namespace SystemIntegration.Web.Controllers
         public ActionResult Login(string userNum, string pwd, string returnUrl)
         {
             //判断员工编号是否为系统用户、判断用户是否删除
-            //var userInfo = db.UserInfo.Where(w => w.UserNum == userNum & w.UserState == 0).FirstOrDefault();
-            //if (userInfo == null)
-            //{
-            //    ModelState.AddModelError("", "您还不是此系统用户，如有疑问请联系管理员，电话5613877！");
-            //    return View();
-            //}
+            var userInfo = _service.GetUserInfoByNum(userNum);
+            if (userInfo == null||userInfo.UserState!="0")
+            {
+                ModelState.AddModelError("", "您还不是此系统用户，如有疑问请联系管理员，电话5613877！");
+                return View();
+            }
             ////将用户的全部信息存入session，便于在其他页面调用
-            //System.Web.HttpContext.Current.Session["user"] = userInfo;
+            System.Web.HttpContext.Current.Session["user"] = userInfo;
 
             //通过考勤数据库验证员工编号、考勤密码
             var result = "yes";
@@ -106,19 +111,7 @@ namespace SystemIntegration.Web.Controllers
             if (result == "yes")
             {
                 #region 加载、设置用户权限
-                //var userRoles = from u in db.UserRole
-                //                join r in db.RoleAuthority on u.RoleID equals r.RoleID
-                //                join a in db.AuthorityInfo on r.AuthorityID equals a.AuthorityID
-                //                where u.UserID == userInfo.UserID
-                //                select a.AuthorityName;
-
-                //var roles = userRoles.Distinct().ToArray();
-                var userAuthorityString = "";
-                //foreach (var item in roles)
-                //{
-                //    userAuthorityString += item + ",";
-                //}
-                userAuthorityString = userAuthorityString.Substring(0, userAuthorityString.Length - 1);
+                var userAuthorityString = userInfo.UserRole;
 
                 //写入用户角色
                 FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1,
@@ -136,13 +129,10 @@ namespace SystemIntegration.Web.Controllers
                 #endregion
 
                 #region 设置用户姓名的cookie
-                //var cUserName = System.Web.HttpContext.Current.Server.UrlEncode(userInfo.UserName);
-                //System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
-                //System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
+                var cUserName = System.Web.HttpContext.Current.Server.UrlEncode(userInfo.UserName);
+                System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
+                System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
                 #endregion
-
-                //userInfo.UserPassword = pwd;
-                //db.SaveChanges();
 
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
@@ -167,6 +157,11 @@ namespace SystemIntegration.Web.Controllers
         /// </summary>
         /// <returns></returns>
         public ViewResult ErrorIE()
+        {
+            return View();
+        }
+
+        public ViewResult Index()
         {
             return View();
         }

@@ -37,17 +37,17 @@ namespace SystemIntegration.Service
                            BindState = u.BindState,
                            SysIcon = s.SysIcon,
                            SysType = s.SysType,
-                           ContactPhone=s.ContactPhone,
-                           ContactPerson=s.ContactPerson,
-                           SysOrder=s.SysOrder,
-                           LoginUrl=s.LoginUrl
+                           ContactPhone = s.ContactPhone,
+                           ContactPerson = s.ContactPerson,
+                           SysOrder = s.SysOrder,
+                           LoginUrl = s.LoginUrl
                        };
             return list.ToList();
         }
 
         public List<VSysInfoList> GetAllSysInfoList(string userNum)
         {
-            using (SystemIntegrationEntities db=new SystemIntegrationEntities())
+            using (SystemIntegrationEntities db = new SystemIntegrationEntities())
             {
                 var sql = @"SELECT  [SysInfoID]
       ,[SysName]
@@ -58,12 +58,26 @@ namespace SystemIntegration.Service
       ,[SysType]
       ,[LoginUrl]
       ,[SysOrder]
-      ,(select [BindState] from [UserSys] t where t.UserNum='@userNum' and t.SysInfoID=s.SysInfoID) as BindState
-  FROM [SystemIntegration].[dbo].[SysInfo] s";
+      ,(select [BindState] from [UserSys] t where t.UserNum=@userNum and t.SysInfoID=s.SysInfoID) as BindState
+  FROM [SystemIntegration].[dbo].[SysInfo] s order by SysOrder";
                 SqlParameter[] parameter = new SqlParameter[1];
                 parameter[0] = new SqlParameter("@userNum", userNum);
-                return db.Database.SqlQuery<VSysInfoList>(sql, parameter).ToList(); ;
+                return db.Database.SqlQuery<VSysInfoList>(sql, parameter).ToList();
             }
+        }
+
+        public VSysCount GetSysCount(string userNum)
+        {
+            var userSysList = repoUserSys.GetList();
+            var sysList = repoSys.GetList();
+
+            var userCount = (from s in sysList
+                           join u in userSysList on s.SysInfoID equals u.SysInfoID
+                           where u.UserNum == userNum
+                           select s).Count();
+
+            var allCount = repoSys.GetList().Count();
+            return new VSysCount { SysAllCount = allCount, SysUserCount = userCount };
         }
     }
 }
