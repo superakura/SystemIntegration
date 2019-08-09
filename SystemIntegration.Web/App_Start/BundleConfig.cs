@@ -17,11 +17,11 @@ namespace TenderInfo.App_Start
                 "~/Content/font-awesome/css/font-awesome.min.css",
                 "~/AdminLTE-dist/css/AdminLTE.min.css",
                 "~/AdminLTE-dist/css/skins/_all-skins.min.css",
-                //"~/Content/Site.css",
                 "~/Content/toastr.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/LayoutJS").Include(
                       "~/Scripts/jquery-1.11.3.min.js",
+                      //"~/Scripts/jquery-3.3.1.min.js",
                       "~/Scripts/jquery-form.js",
                       "~/Scripts/jquery.validate.min.js",
                       "~/Scripts/jquery.validate.messages_cn.js",

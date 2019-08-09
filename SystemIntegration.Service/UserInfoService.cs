@@ -8,7 +8,7 @@ using SystemIntegration.Repository;
 
 namespace SystemIntegration.Service
 {
-    public class UserInfoService:IUserInfoService
+    public class UserInfoService : IUserInfoService
     {
         private IGenericRepository<UserInfo> userInfoRepo;
         public UserInfoService(IGenericRepository<UserInfo> repo)
@@ -24,6 +24,11 @@ namespace SystemIntegration.Service
         public List<UserInfo> GetUserInfoList()
         {
             return userInfoRepo.GetList().ToList();
+        }
+
+        public bool Update(UserInfo user)
+        {
+            return userInfoRepo.Update(user);
         }
     }
 }

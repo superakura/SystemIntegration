@@ -12,5 +12,7 @@ namespace SystemIntegration.Service
     {
         UserInfo GetUserInfoByNum(string userNum);
         List<UserInfo> GetUserInfoList();
+
+        bool Update(UserInfo user);
     }
 }

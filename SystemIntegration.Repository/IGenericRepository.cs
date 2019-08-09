@@ -10,8 +10,8 @@ namespace SystemIntegration.Repository
     {
         IQueryable<TEntity> GetList();
         TEntity GetByID(object id);
-        void Update(TEntity entity);
-        void Insert(TEntity entity);
-        void Delete(object id);
+        bool Update(TEntity entity);
+        bool Insert(TEntity entity);
+        bool Delete(object id);
     }
 }

@@ -18,19 +18,15 @@ namespace SystemIntegration.Repository
             this.dbset = db.Set<TEntity>();
         }
 
-        public void Delete(object id)
+        public bool Delete(object id)
         {
             TEntity entity = dbset.Find(id);
-            Delete(entity);
-        }
-        public virtual void Delete(TEntity entity)
-        {
-            if (db.Entry(entity).State==EntityState.Detached)
+            if (db.Entry(entity).State == EntityState.Detached)
             {
                 dbset.Attach(entity);
             }
             dbset.Remove(entity);
-            db.SaveChanges();
+            return db.SaveChanges()==1?true:false;
         }
 
         public TEntity GetByID(object id)
@@ -43,17 +39,17 @@ namespace SystemIntegration.Repository
             return dbset;
         }
 
-        public void Insert(TEntity entity)
+        public bool Insert(TEntity entity)
         {
             dbset.Add(entity);
-            db.SaveChanges();
+            return db.SaveChanges() == 1 ? true : false;
         }
 
-        public void Update(TEntity entity)
+        public bool Update(TEntity entity)
         {
             dbset.Attach(entity);
             db.Entry(entity).State = EntityState.Modified;
-            db.SaveChanges();
+            return db.SaveChanges()==1?true:false;
         }
     }
 }

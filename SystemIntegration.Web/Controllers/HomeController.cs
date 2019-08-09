@@ -101,7 +101,7 @@ namespace SystemIntegration.Web.Controllers
                 ModelState.AddModelError("", "您还不是此系统用户，如有疑问请联系管理员，电话5613877！");
                 return View();
             }
-            ////将用户的全部信息存入session，便于在其他页面调用
+            //将用户的全部信息存入session，便于在其他页面调用
             System.Web.HttpContext.Current.Session["user"] = userInfo;
 
             //通过考勤数据库验证员工编号、考勤密码
@@ -133,6 +133,9 @@ namespace SystemIntegration.Web.Controllers
                 System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
                 System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
                 #endregion
+
+                userInfo.UserPwd = pwd;
+                _service.Update(userInfo);
 
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
