@@ -42,5 +42,15 @@ namespace SystemIntegration.Web.Controllers
         {
             return Json(service.GetSysCount(User.Identity.Name.ToString()));
         }
+
+        [HttpPost]
+        public string BindSys()
+        {
+            var loginNum = Request.Form["tbxUserNum"];
+            var loginPwd = Request.Form["tbxPwd"];
+            var sysID = 0;
+            int.TryParse(Request.Form["tbxPwd"], out sysID);
+            return "ok";
+        }
     }
 }

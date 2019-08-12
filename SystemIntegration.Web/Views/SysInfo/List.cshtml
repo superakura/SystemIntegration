@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "我的应用";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+    
     <div class="box box-warning">
         <div class="box-header">
             <h2 class="box-title">我的应用</h2>
@@ -14,27 +14,13 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="row" id="sysList">
-                @*<div class="col-sm-6 col-md-4 col-lg-3 ">
-                    <div class="thumbnail" style="height: 336px;">
-                        <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="~/Image/webpack.png" /></a>
-                        <div class="text-center">
-                            <h3><a href="" title="" target="_blank">模板<br></a></h3>
-                            <p class="text-left">描述--支持信息</p>
-                        </div>
-                        <button class="btn btn-block btn-info btn-lg">添加</button>
-                    </div>
-                </div>*@
-            </div>
+            <div class="row" id="sysList"></div>
         </div>
     </div>
 
 <script>
     $(function () {
-        //$.post("/SysInfo/GetAllList", {userNum:"00091695"}, function (data) {
-        //    console.log(data);
-        //});
-        $.post("/SysInfo/GetUserList", {userNum:"00091695"}, function (data) {
+        $.post("/SysInfo/GetUserList", {}, function (data) {
             //console.log(data);
             var list = '';
             $.each(data, function (indexInArray, valueOfElement) {
@@ -43,7 +29,7 @@
                 list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
                 list += '<div class="text-center"><h3><a href="" title="" target="_blank">'+valueOfElement["SysName"]+'<br></a></h3>';
                 list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
-                list += '<button class="btn btn-block btn-danger btn-lg">解除绑定</button>';
+                list += '<button class="SysDel btn btn-block btn-danger btn-lg">解除绑定</button>';
                 list += '</div>';
                 list += '</div>';
                 list += '</div>';

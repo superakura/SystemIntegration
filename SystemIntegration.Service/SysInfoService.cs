@@ -79,5 +79,26 @@ namespace SystemIntegration.Service
             var allCount = repoSys.GetList().Count();
             return new VSysCount { SysAllCount = allCount, SysUserCount = userCount };
         }
+
+        public string AddUserSys(string userNum, string loginName,string loginPwd, int sysID)
+        {
+            var userSys = new UserSys();
+            userSys.LoginName = loginName;
+            userSys.LoginPwd = loginPwd;
+            userSys.SysInfoID = sysID;
+            userSys.UserNum = userNum;
+            userSys.BindState = "已绑定";
+            return repoUserSys.Insert(userSys)?"ok":"error";
+        }
+
+        public string CheckSysLogin(int sysID, string loginName, string loginPwd, string loginType, string loginUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SysInfo GetSysInfo(int sysID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

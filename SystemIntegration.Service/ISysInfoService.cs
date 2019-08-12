@@ -25,6 +25,36 @@ namespace SystemIntegration.Service
         /// <returns></returns>
         List<VSysInfoList> GetAllSysInfoList(string userNum);
 
+        /// <summary>
+        /// 获取全部、用户绑定系统数量
+        /// </summary>
+        /// <param name="userNum"></param>
+        /// <returns></returns>
         VSysCount GetSysCount(string userNum);
+
+        /// <summary>
+        /// 添加用户绑定的系统
+        /// </summary>
+        /// <param name="sysInfo"></param>
+        /// <returns></returns>
+        string AddUserSys(string userNum, string loginName, string loginPwd,int sysID);
+
+        /// <summary>
+        /// 判断该系统的用户名、密码是否正确
+        /// </summary>
+        /// <param name="sysID"></param>
+        /// <param name="loginName"></param>
+        /// <param name="loginPwd"></param>
+        /// <param name="loginType"></param>
+        /// <param name="loginUrl"></param>
+        /// <returns></returns>
+        string CheckSysLogin(int sysID, string loginName, string loginPwd, string loginType, string loginUrl);
+
+        /// <summary>
+        /// 获取单个系统信息
+        /// </summary>
+        /// <param name="sysID"></param>
+        /// <returns></returns>
+        SysInfo GetSysInfo(int sysID);
     }
 }
