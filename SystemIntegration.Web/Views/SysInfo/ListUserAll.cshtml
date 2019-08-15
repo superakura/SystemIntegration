@@ -38,9 +38,10 @@
         </form>
     </div>
 </div>
+<h2>全部应用</h2>
 <div class="box box-danger">
     <div class="box-header">
-        <h2 class="box-title">全部应用</h2>
+        <h2 class="box-title">生产类</h2>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
                 <i class="fa fa-minus"></i>
@@ -48,7 +49,7 @@
         </div>
     </div>
     <div class="box-body">
-        <div class="row" id="sysList">
+        <div class="row" id="sysListProduce">
             <div class="col-sm-6 col-md-4 col-lg-3 ">
                 <div class="thumbnail" style="height: 336px;">
                     <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="~/Image/webpack.png" /></a>
@@ -62,34 +63,64 @@
         </div>
     </div>
 </div>
+<div class="box box-primary">
+    <div class="box-header">
+        <h2 class="box-title">经营类</h2>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row" id="sysListManagement"></div>
+    </div>
+</div>
+<div class="box box-warning">
+    <div class="box-header">
+        <h2 class="box-title">服务类</h2>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row" id="sysListService"></div>
+    </div>
+</div>
 <script>
     $(function () {
         function ClearForm() {
             $("#addModal input").val("");
         }
 
-        $.post("/SysInfo/GetAllList", {}, function (data) {
-            //console.log(data);
-            var list = '';
-            $.each(data, function (indexInArray, valueOfElement) {
-                list += '<div class="col-sm-6 col-md-4 col-lg-3 ">';
-                list += '<div class="thumbnail" style="height: 336px;">';
-                list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
-                list += '<div class="text-center"><h3><a href="" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
-                list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
-                if (valueOfElement["BindState"] == "已绑定") {
-                    list += '<button class="btn btn-block btn-success btn-lg">已绑定</button>';
-                }
-                else {
-                    list += '<button id="' + valueOfElement["SysInfoID"] + '" class="SysAdd btn btn-block btn-info btn-lg">添加</button>';
-
-                }
-                list += '</div>';
-                list += '</div>';
-                list += '</div>';
+        function LoadSys(listID, type) {
+            $.post("/SysInfo/GetUserAllList", { "type": type }, function (data) {
+                //console.log(data);
+                var list = '';
+                $.each(data, function (indexInArray, valueOfElement) {
+                    list += '<div class="col-sm-6 col-md-4 col-lg-3 ">';
+                    list += '<div class="thumbnail" style="height: 336px;">';
+                    list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
+                    list += '<div class="text-center"><h3><a href="" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
+                    list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
+                    if (valueOfElement["BindState"] == "已绑定") {
+                        list += '<button class="btn btn-block btn-success btn-lg">已绑定</button>';
+                    }
+                    else {
+                        list += '<button id="' + valueOfElement["SysInfoID"] + '" class="SysAdd btn btn-block btn-info btn-lg">添加</button>';
+                    }
+                    list += '</div>';
+                    list += '</div>';
+                    list += '</div>';
+                });
+                $("#" + listID).append(list);
             });
-            $("#sysList").append(list);
-        });
+        }
+        LoadSys("sysListProduce","生产");
+        LoadSys("sysListManagement","经营");
+        LoadSys("sysListService","服务");
 
         $(document).on("click", ".SysAdd", function () {
             ClearForm();

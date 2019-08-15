@@ -467,9 +467,10 @@
     <Content Include="Views\SysInfo\List.cshtml" />
     <Content Include="Views\Home\ErrorIE.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\SysInfo\ListAll.cshtml" />
+    <Content Include="Views\SysInfo\ListUserAll.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\LogInfo\List.cshtml" />
+    <Content Include="Views\SysInfo\ListUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

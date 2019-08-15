@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "我的应用";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>我的应用</h2>
+<div class="box box-danger">
+    <div class="box-header">
+        <h2 class="box-title">生产类</h2>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row" id="sysListProduce"></div>
+    </div>
+</div>
+<div class="box box-info">
+    <div class="box-header">
+        <h2 class="box-title">经营类</h2>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row" id="sysListManagement"></div>
+    </div>
+</div>
+<div class="box box-warning">
+    <div class="box-header">
+        <h2 class="box-title">服务类</h2>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row" id="sysListService"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        function LoadSys(listID, type) {
+            $.post("/SysInfo/GetUserList", { "type": type }, function (data) {
+                //console.log(data);
+                var list = '';
+                $.each(data, function (indexInArray, valueOfElement) {
+                    list += '<div class="col-sm-6 col-md-4 col-lg-3 ">';
+                    list += '<div class="thumbnail" style="height: 336px;">';
+                    list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
+                    list += '<div class="text-center"><h3><a href="" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
+                    list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
+                    list += '<button class="SysDel btn btn-block btn-danger btn-lg">解除绑定</button>';
+                    list += '</div>';
+                    list += '</div>';
+                    list += '</div>';
+                });
+                $("#" + listID).append(list);
+            });
+        }
+        LoadSys("sysListProduce","生产");
+        LoadSys("sysListManagement","经营");
+        LoadSys("sysListService","服务");
+    });
+</script>
+

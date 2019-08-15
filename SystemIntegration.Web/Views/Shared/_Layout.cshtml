@@ -72,20 +72,20 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/SysInfo/List">
+                        <a href="/SysInfo/ListUser">
                             <i class="fa fa-laptop"></i>
                             <span>我的应用</span>
                             <span class="pull-right-container">
-                                <span id="lblMySys" class="label label-primary pull-right">4</span>
+                                <span id="lblMySys" class="label label-primary pull-right"></span>
                             </span>
                         </a>
                     </li>
                     <li>
-                        <a href="/SysInfo/ListAll">
+                        <a href="/SysInfo/ListUserAll">
                             <i class="fa fa-th"></i>
                             <span>全部应用</span>
                             <span class="pull-right-container">
-                                <span id="lblAllSys" class="label label-warning pull-right">55</span>
+                                <span id="lblAllSys" class="label label-warning pull-right"></span>
                             </span>
                         </a>
                     </li>
@@ -94,6 +94,14 @@
                             <i class="fa fa-pie-chart"></i> <span>日志查看</span>
                         </a>
                     </li>
+                    @if (User.IsInRole("系统维护"))
+                    {
+                        <li>
+                            <a href="/SysInfo/List">
+                                <i class="fa fa-product-hunt"></i> <span>应用管理</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </section>
             <!-- /.sidebar -->
