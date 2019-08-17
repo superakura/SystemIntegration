@@ -12,9 +12,11 @@ namespace SystemIntegration.Web.Controllers
     public class SysInfoController : Controller
     {
         private ISysInfoService service;
-        public SysInfoController(ISysInfoService service)
+        private IUserInfoService serviceUser;
+        public SysInfoController(ISysInfoService service,IUserInfoService serviceUser)
         {
             this.service = service;
+            this.serviceUser = serviceUser;
         }
 
         [Authorize(Roles = "系统维护")]
@@ -94,8 +96,8 @@ namespace SystemIntegration.Web.Controllers
             info.SysName = Request.Form["tbxSysName"];
             info.SysDesc = Request.Form["tbxSysDesc"];
             info.SysIcon = Request.Form["tbxSysIcon"];
-            info.ContactPhone = Request.Form["tbxContactPhone"];
-            info.ContactPerson = Request.Form["tbxContactPerson"];
+            info.TechnicalContactPhone = Request.Form["tbxContactPhone"];
+            info.TechnicalContactPerson = Request.Form["tbxContactPerson"];
             info.SysState = Request.Form["tbxSysState"];
             info.SysType = Request.Form["ddlSysType"];
             info.LoginUrl = Request.Form["tbxLoginUrl"];
@@ -114,14 +116,27 @@ namespace SystemIntegration.Web.Controllers
             info.SysName = Request.Form["tbxSysName"];
             info.SysDesc = Request.Form["tbxSysDesc"];
             info.SysIcon = Request.Form["tbxSysIcon"];
-            info.ContactPhone = Request.Form["tbxContactPhone"];
-            info.ContactPerson = Request.Form["tbxContactPerson"];
+            info.TechnicalContactPhone = Request.Form["tbxContactPhone"];
+            info.TechnicalContactPerson = Request.Form["tbxContactPerson"];
             info.SysState = Request.Form["tbxSysState"];
             info.SysType = Request.Form["ddlSysType"];
             info.LoginUrl = Request.Form["tbxLoginUrl"];
             int.TryParse(Request.Form["tbxSysOrder"], out int order);
             info.SysOrder = order;
             return service.UpdateSysInfo(info);
+        }
+
+        [HttpPost]
+        public string BindSysLogin()
+        {
+            var loginPwd = Request.Form["tbxPwd"];
+            var loginName = Request.Form["tbxUserNum"];
+            var sysID = 0;
+            int.TryParse(Request.Form["SysID"], out sysID);
+            var userInfo = serviceUser.GetUserInfoByNum(User.Identity.Name);
+            var ip = "10.126.0.45";
+
+            return service.BindUserSys(userInfo.UserNum,ip,userInfo.UserName,loginName,loginPwd,sysID);
         }
     }
 }

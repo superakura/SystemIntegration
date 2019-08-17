@@ -14,7 +14,7 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <input type="text" class="hidden" id="SysID">
+                            <input type="text" class="hidden" id="SysID" name="SysID">
                             <div class="col-md-12">
                                 <div class="form-horizontal">
                                     <div class="form-group">
@@ -135,13 +135,14 @@
                 }
                 else {
                     $("#SysAddForm").ajaxSubmit({
-                        url: "/SysInfo/Insert",
+                        url: "/SysInfo/BindSysLogin",
                         type: "post",
                         success: function (result) {
-                            if (result === "ok") {
-                                toastr.success("操作成功！", "提示");
-                                BackView();
-                            }
+                            console.log(result);
+                            //if (result === "ok") {
+                            //    toastr.success("操作成功！", "提示");
+                            //    BackView();
+                            //}
                         },
                         error: function (error) {
                             toastr.error(error, "提示");

@@ -12,8 +12,8 @@ namespace SystemIntegration.Service.ViewModels
         public string SysName { get; set; }
         public string SysDesc { get; set; }
         public string SysIcon { get; set; }
-        public string ContactPhone { get; set; }
-        public string ContactPerson { get; set; }
+        public string TechnicalContactPhone { get; set; }
+        public string TechnicalContactPerson { get; set; }
         public string SysState { get; set; }
         public string SysType { get; set; }
         public string LoginUrl { get; set; }

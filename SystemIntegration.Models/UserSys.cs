@@ -21,5 +21,6 @@ namespace SystemIntegration.Models
         public string LoginName { get; set; }
         public string LoginPwd { get; set; }
         public Nullable<double> UserSysOrder { get; set; }
+        public string LoginType { get; set; }
     }
 }

@@ -55,7 +55,17 @@ namespace SystemIntegration.Service
         /// <param name="loginType">用户的类型：管理员或者普通用户。如果是内部判断权限则为空</param>
         /// <param name="loginUrl">要验证用户名密码的系统地址</param>
         /// <returns></returns>
-        string CheckSysLogin(int sysID, string loginName, string loginPwd, string loginType, string loginUrl);
+        VLoginCheckPwd CheckSysLogin(string loginName, string loginPwd, int sysID);
+
+        /// <summary>
+        /// 绑定用户系统
+        /// </summary>
+        /// <param name="userNum"></param>
+        /// <param name="loginName"></param>
+        /// <param name="loginPwd"></param>
+        /// <param name="sysID"></param>
+        /// <returns></returns>
+        string BindUserSys(string userNum,string userIP,string userName, string loginName, string loginPwd, int sysID);
 
         /// <summary>
         /// 获取单个系统信息

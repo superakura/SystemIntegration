@@ -31,12 +31,23 @@
           <Property Name="SysName" Type="nvarchar" MaxLength="100" />
           <Property Name="SysDesc" Type="nvarchar" MaxLength="500" />
           <Property Name="SysIcon" Type="nvarchar" MaxLength="100" />
-          <Property Name="ContactPhone" Type="nvarchar" MaxLength="100" />
-          <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="TechnicalContactPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="TechnicalContactPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManageContactPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManageContactPerson" Type="nvarchar" MaxLength="100" />
           <Property Name="SysState" Type="nvarchar" MaxLength="100" />
           <Property Name="SysType" Type="nvarchar" MaxLength="100" />
+          <Property Name="SysTypeSub" Type="nvarchar" MaxLength="100" />
+          <Property Name="SysUrl" Type="nvarchar" MaxLength="100" />
           <Property Name="LoginUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="LoginType" Type="nvarchar" MaxLength="100" />
           <Property Name="SysOrder" Type="float" />
+          <Property Name="IsLogin" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginCheckDataBaseIP" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginCheckDataBaseName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginCheckDataBaseUserName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginCheckDataBaseUserPwd" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginCheckDataBaseStoredProcedure" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -54,15 +65,14 @@
             <PropertyRef Name="UserSysID" />
           </Key>
           <Property Name="UserSysID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserNum" Type="nvarchar" MaxLength="50" />
           <Property Name="SysInfoID" Type="int" />
+          <Property Name="UserNum" Type="nvarchar" MaxLength="50" />
           <Property Name="BindState" Type="nvarchar" MaxLength="50" />
           <Property Name="LoginName" Type="nvarchar" MaxLength="100" />
           <Property Name="LoginPwd" Type="nvarchar" MaxLength="500" />
+          <Property Name="LoginType" Type="nvarchar" MaxLength="50" />
           <Property Name="UserSysOrder" Type="float" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“SystemIntegration.dbo.View_SysInfoUserBind”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityContainer Name="SystemIntegrationModelStoreContainer">
           <EntitySet Name="LogInfo" EntityType="Self.LogInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysInfo" EntityType="Self.SysInfo" Schema="dbo" store:Type="Tables" />
@@ -75,9 +85,9 @@
       <Schema Namespace="SystemIntegrationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SystemIntegrationEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="LogInfo" EntityType="SystemIntegrationModel.LogInfo" />
-          <EntitySet Name="SysInfo" EntityType="SystemIntegrationModel.SysInfo" />
           <EntitySet Name="UserInfo" EntityType="SystemIntegrationModel.UserInfo" />
           <EntitySet Name="UserSys" EntityType="SystemIntegrationModel.UserSys" />
+          <EntitySet Name="SysInfo" EntityType="SystemIntegrationModel.SysInfo" />
         </EntityContainer>
         <EntityType Name="LogInfo">
           <Key>
@@ -96,21 +106,6 @@
           <Property Name="LogCol3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LogCol4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LogCol5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="SysInfo">
-          <Key>
-            <PropertyRef Name="SysInfoID" />
-          </Key>
-          <Property Name="SysInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SysName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SysDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="SysIcon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ContactPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SysState" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SysType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="LoginUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="SysOrder" Type="Double" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -134,6 +129,33 @@
           <Property Name="LoginName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LoginPwd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UserSysOrder" Type="Double" />
+          <Property Name="LoginType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SysInfo">
+          <Key>
+            <PropertyRef Name="SysInfoID" />
+          </Key>
+          <Property Name="SysInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SysName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SysIcon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TechnicalContactPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TechnicalContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManageContactPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManageContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysState" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysTypeSub" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LoginType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SysOrder" Type="Double" />
+          <Property Name="IsLogin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginCheckDataBaseIP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginCheckDataBaseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginCheckDataBaseUserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginCheckDataBaseUserPwd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginCheckDataBaseStoredProcedure" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -160,22 +182,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SysInfo">
-            <EntityTypeMapping TypeName="SystemIntegrationModel.SysInfo">
-              <MappingFragment StoreEntitySet="SysInfo">
-                <ScalarProperty Name="SysOrder" ColumnName="SysOrder" />
-                <ScalarProperty Name="LoginUrl" ColumnName="LoginUrl" />
-                <ScalarProperty Name="SysType" ColumnName="SysType" />
-                <ScalarProperty Name="SysState" ColumnName="SysState" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
-                <ScalarProperty Name="SysIcon" ColumnName="SysIcon" />
-                <ScalarProperty Name="SysDesc" ColumnName="SysDesc" />
-                <ScalarProperty Name="SysName" ColumnName="SysName" />
-                <ScalarProperty Name="SysInfoID" ColumnName="SysInfoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserInfo">
             <EntityTypeMapping TypeName="SystemIntegrationModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
@@ -191,6 +197,7 @@
           <EntitySetMapping Name="UserSys">
             <EntityTypeMapping TypeName="SystemIntegrationModel.UserSys">
               <MappingFragment StoreEntitySet="UserSys">
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
                 <ScalarProperty Name="UserSysOrder" ColumnName="UserSysOrder" />
                 <ScalarProperty Name="LoginPwd" ColumnName="LoginPwd" />
                 <ScalarProperty Name="LoginName" ColumnName="LoginName" />
@@ -198,6 +205,33 @@
                 <ScalarProperty Name="SysInfoID" ColumnName="SysInfoID" />
                 <ScalarProperty Name="UserNum" ColumnName="UserNum" />
                 <ScalarProperty Name="UserSysID" ColumnName="UserSysID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysInfo">
+            <EntityTypeMapping TypeName="SystemIntegrationModel.SysInfo">
+              <MappingFragment StoreEntitySet="SysInfo">
+                <ScalarProperty Name="LoginCheckDataBaseStoredProcedure" ColumnName="LoginCheckDataBaseStoredProcedure" />
+                <ScalarProperty Name="LoginCheckDataBaseUserPwd" ColumnName="LoginCheckDataBaseUserPwd" />
+                <ScalarProperty Name="LoginCheckDataBaseUserName" ColumnName="LoginCheckDataBaseUserName" />
+                <ScalarProperty Name="LoginCheckDataBaseName" ColumnName="LoginCheckDataBaseName" />
+                <ScalarProperty Name="LoginCheckDataBaseIP" ColumnName="LoginCheckDataBaseIP" />
+                <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
+                <ScalarProperty Name="SysOrder" ColumnName="SysOrder" />
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+                <ScalarProperty Name="LoginUrl" ColumnName="LoginUrl" />
+                <ScalarProperty Name="SysUrl" ColumnName="SysUrl" />
+                <ScalarProperty Name="SysTypeSub" ColumnName="SysTypeSub" />
+                <ScalarProperty Name="SysType" ColumnName="SysType" />
+                <ScalarProperty Name="SysState" ColumnName="SysState" />
+                <ScalarProperty Name="ManageContactPerson" ColumnName="ManageContactPerson" />
+                <ScalarProperty Name="ManageContactPhone" ColumnName="ManageContactPhone" />
+                <ScalarProperty Name="TechnicalContactPerson" ColumnName="TechnicalContactPerson" />
+                <ScalarProperty Name="TechnicalContactPhone" ColumnName="TechnicalContactPhone" />
+                <ScalarProperty Name="SysIcon" ColumnName="SysIcon" />
+                <ScalarProperty Name="SysDesc" ColumnName="SysDesc" />
+                <ScalarProperty Name="SysName" ColumnName="SysName" />
+                <ScalarProperty Name="SysInfoID" ColumnName="SysInfoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
