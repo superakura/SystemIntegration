@@ -30,5 +30,16 @@ namespace SystemIntegration.Service
         {
             return userInfoRepo.Update(user);
         }
+
+        public bool Insert(string userNum, string userName, string userState, string userPwd, string userRole)
+        {
+            var info = new UserInfo();
+            info.UserNum = userNum;
+            info.UserName = userName;
+            info.UserState = userState;
+            info.UserPwd = userPwd;
+            info.UserRole = userRole;
+            return userInfoRepo.Insert(info);
+        }
     }
 }

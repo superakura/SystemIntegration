@@ -14,7 +14,7 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-horizontal">
                                     <div class="form-group">
                                         <label for="tbxSysName">应用名称</label>
@@ -29,17 +29,14 @@
                                         <input type="text" class="form-control" name="tbxSysIcon" id="tbxSysIcon" placeholder="应用图标">
                                     </div>
                                     <div class="form-group">
-                                        <label for="tbxContactPhone">联系人电话</label>
-                                        <input type="text" class="form-control" name="tbxContactPhone" id="tbxContactPhone" placeholder="联系人电话">
+                                        <label for="tbxTechnicalContactPhone">技术联系人电话</label>
+                                        <input type="text" class="form-control" name="tbxTechnicalContactPhone" id="tbxTechnicalContactPhone" placeholder="技术联系人电话">
                                     </div>
                                     <div class="form-group">
-                                        <label for="tbxContactPerson">联系人</label>
-                                        <input type="text" class="form-control" name="tbxContactPerson" id="tbxContactPerson" placeholder="联系人">
+                                        <label for="tbxTechnicalContactPerson">技术联系人</label>
+                                        <input type="text" class="form-control" name="tbxTechnicalContactPerson" id="tbxTechnicalContactPerson" placeholder="技术联系人">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="tbxSysState">应用状态</label>
-                                        <input type="text" class="form-control" name="tbxSysState" id="tbxSysState" value="0" placeholder="应用状态">
-                                    </div>
+
                                     <div class="form-group">
                                         <label for="ddlSysType">应用类型</label>
                                         <select id="ddlSysType" name="ddlSysType" class="form-control">
@@ -49,14 +46,71 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tbxLoginUrl">应用登录地址</label>
-                                        <input type="text" class="form-control" name="tbxLoginUrl" id="tbxLoginUrl" placeholder="应用登录地址">
+                                        <label for="tbxSysTypeSub">应用子类型</label>
+                                        <input type="text" class="form-control" name="tbxSysTypeSub" id="tbxSysTypeSub" placeholder="应用子类型">
                                     </div>
                                     <div class="form-group">
-                                        <label for="tbxSysOrder">应用排序</label>
-                                        <input type="text" class="form-control" name="tbxSysOrder" id="tbxSysOrder" placeholder="应用排序">
+                                        <label for="tbxLoginUrl">转跳登录验证地址</label>
+                                        <input type="text" class="form-control" name="tbxLoginUrl" id="tbxLoginUrl" placeholder="应用登录验证地址">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="tbxLoginType">登录验证用户类型</label>
+                                        <input type="text" class="form-control" name="tbxLoginType" id="tbxLoginType" placeholder="应用登录类型">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tbxSysUrl">应用原访问地址</label>
+                                        <input type="text" class="form-control" name="tbxSysUrl" id="tbxSysUrl" placeholder="应用原登录地址">
+                                    </div>
+                                   
                                     <input class="hidden" id="sysID" name="sysID">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tbxManageContactPhone">业务联系人电话</label>
+                                    <input type="text" class="form-control" name="tbxManageContactPhone" id="tbxManageContactPhone" placeholder="业务联系人电话">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxManageContactPerson">业务联系人</label>
+                                    <input type="text" class="form-control" name="tbxManageContactPerson" id="tbxManageContactPerson" placeholder="业务联系人">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxLoginCheckDataBaseIP">系统账号验证IP</label>
+                                    <input type="text" class="form-control" name="tbxLoginCheckDataBaseIP" id="tbxLoginCheckDataBaseIP" placeholder="系统账号验证IP">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxLoginCheckDataBaseName">系统账号验证数据库名</label>
+                                    <input type="text" class="form-control" name="tbxLoginCheckDataBaseName" id="tbxLoginCheckDataBaseName" placeholder="系统账号验证数据库名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxLoginCheckDataBaseUserName">系统账号验证数据库用户名</label>
+                                    <input type="text" class="form-control" name="tbxLoginCheckDataBaseUserName" id="tbxLoginCheckDataBaseUserName" placeholder="系统账号验证数据库用户名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxLoginCheckDataBaseUserPwd">系统账号验证数据库密码</label>
+                                    <input type="text" class="form-control" name="tbxLoginCheckDataBaseUserPwd" id="tbxLoginCheckDataBaseUserPwd" placeholder="系统账号验证数据库密码">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxLoginCheckDataBaseStoredProcedure">系统账号验证存储过程名</label>
+                                    <input type="text" class="form-control" name="tbxLoginCheckDataBaseStoredProcedure" id="tbxLoginCheckDataBaseStoredProcedure" placeholder="系统账号验证存储过程名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ddlIsLogin">是否需要登录</label>
+                                    <select id="ddlIsLogin" name="ddlIsLogin" class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ddlSysState">应用状态</label>
+                                    <select id="ddlSysState" name="ddlSysState" class="form-control">
+                                        <option value="0">正常</option>
+                                        <option value="1">停用</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tbxSysOrder">应用排序(数字)</label>
+                                    <input type="text" class="form-control" name="tbxSysOrder" id="tbxSysOrder" placeholder="应用排序(数字)">
                                 </div>
                             </div>
                         </div>
@@ -116,9 +170,8 @@
 <script>
     $(function () {
         $("#btnAdd").click(function () {
-            //clearInfo();
+            clearInfo();
             $('#myModal').modal('show');
-            $("#modalTitle").text("应用信息");
         });
         function clearInfo() {
             $("#tbxTitle").val("");
@@ -132,14 +185,13 @@
                     tbxSysName: { required: true, maxlength: 100 }
                 },
                 submitHandler: function (form) {
-                    if ($("#sysID").val() != "") {
-                        Ewin.confirm({ message: "确认要修改吗？" }).on(function (e) {
+                   Ewin.confirm({ message: "确认要保存吗？" }).on(function (e) {
                             if (!e) {
                                 return;
                             }
                             else {
                                 $("#formInfo").ajaxSubmit({
-                                    url: "/SysInfo/UpdateSysInfo",
+                                    url: "/SysInfo/SaveSysInfo",
                                     type: "post",
                                     success: function (result) {
                                         if (result === "ok") {
@@ -158,34 +210,6 @@
                                 });
                             }
                         });
-                    }
-                    else {
-                        Ewin.confirm({ message: "确认要添加吗？" }).on(function (e) {
-                            if (!e) {
-                                return;
-                            }
-                            else {
-                                $("#formInfo").ajaxSubmit({
-                                    url: "/SysInfo/InsertSysInfo",
-                                    type: "post",
-                                    success: function (result) {
-                                        if (result === "ok") {
-                                            $("#myModal").modal("hide");
-                                            toastr.success("操作成功！", "提示");
-                                            clearInfo();
-                                            $("#bsTable").bootstrapTable('refresh');
-                                        }
-                                    },
-                                    error: function (error) {
-                                        console.log(error);
-                                        clearInfo();
-                                        toastr.error(error, "提示");
-                                        return;
-                                    }
-                                });
-                            }
-                        });
-                    }
                 }
             });
         });
@@ -194,15 +218,13 @@
             'click .edit': function (e, value, row, index) {
                 $("label.error").hide();
                 $(".error").removeClass("error");
-                var id = row.SysInfoID;
+
                 $('#myModal').modal('show');
-                $("#modalTitle").text("编辑信息");
-                $("#sysID").val(id);
-                //console.log(id);
-                $.post("/SysInfo/GetSysOne", { "id": id }, function (result) {
-                    //console.log(result);
+                $("#sysID").val(row.SysInfoID);
+                $.post("/SysInfo/GetSysOne", { "id": row.SysInfoID }, function (result) {
                     $.each(result, function (name,val) {
                         $("#tbx" + name).val(val);
+                        $("#ddl" + name).val(val);
                     });
                 });
             },

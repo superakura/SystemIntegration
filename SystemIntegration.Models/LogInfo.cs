@@ -27,5 +27,9 @@ namespace SystemIntegration.Models
         public string LogCol3 { get; set; }
         public string LogCol4 { get; set; }
         public string LogCol5 { get; set; }
+        public string LoginName { get; set; }
+        public string LoginPwd { get; set; }
+        public string LoginType { get; set; }
+        public string Token { get; set; }
     }
 }

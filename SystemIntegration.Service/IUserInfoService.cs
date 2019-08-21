@@ -14,5 +14,6 @@ namespace SystemIntegration.Service
         List<UserInfo> GetUserInfoList();
 
         bool Update(UserInfo user);
+        bool Insert(string userNum, string userName, string userState, string userPwd, string userRole);
     }
 }

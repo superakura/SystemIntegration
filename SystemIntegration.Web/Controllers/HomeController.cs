@@ -91,25 +91,32 @@ namespace SystemIntegration.Web.Controllers
         /// <param name="pwd"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [AllowAnonymous][HttpPost]
+        [AllowAnonymous]
+        [HttpPost]
         public ActionResult Login(string userNum, string pwd, string returnUrl)
         {
-            //判断员工编号是否为系统用户、判断用户是否删除
-            var userInfo = _service.GetUserInfoByNum(userNum);
-            if (userInfo == null||userInfo.UserState!="0")
-            {
-                ModelState.AddModelError("", "您还不是此系统用户，如有疑问请联系管理员，电话5613877！");
-                return View();
-            }
-            //将用户的全部信息存入session，便于在其他页面调用
-            System.Web.HttpContext.Current.Session["user"] = userInfo;
-
             //通过考勤数据库验证员工编号、考勤密码
             var result = "yes";
             //result = KaoqinCheck(userNum, pwd);//系统测试时，注释。正式运行时，取消注释。
 
             if (result == "yes")
             {
+                //判断员工编号是否为系统用户、判断用户是否删除
+                var userInfo = _service.GetUserInfoByNum(userNum);
+                if (userInfo == null)
+                {
+                    var userName = userNum;//通过考勤系统查询员工姓名
+                    _service.Insert(userNum, userName, "0", pwd, "日志,登录");
+                    userInfo = _service.GetUserInfoByNum(userNum);
+                }
+                else
+                {
+                    userInfo.UserPwd = pwd;
+                    _service.Update(userInfo);
+                }
+                //将用户的全部信息存入session，便于在其他页面调用
+                System.Web.HttpContext.Current.Session["user"] = userInfo;
+
                 #region 加载、设置用户权限
                 var userAuthorityString = userInfo.UserRole;
 
@@ -133,9 +140,6 @@ namespace SystemIntegration.Web.Controllers
                 System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
                 System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
                 #endregion
-
-                userInfo.UserPwd = pwd;
-                _service.Update(userInfo);
 
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }

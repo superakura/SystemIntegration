@@ -87,5 +87,14 @@ namespace SystemIntegration.Service
         /// <param name="sysInfo"></param>
         /// <returns></returns>
         string UpdateSysInfo(VSysInfo sysInfo);
+
+        /// <summary>
+        /// 返回dbError，数据库错误。返回userOrPwdError，用户名密码错误。正确返回访问地址。
+        /// </summary>
+        /// <param name="sysID"></param>
+        /// <param name="userNum"></param>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        string RedirectToSys(int sysID, string userNum, string ip);
     }
 }

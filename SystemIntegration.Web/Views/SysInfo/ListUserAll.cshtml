@@ -102,30 +102,54 @@
                 $.each(data, function (indexInArray, valueOfElement) {
                     list += '<div class="col-sm-6 col-md-4 col-lg-3 ">';
                     list += '<div class="thumbnail" style="height: 336px;">';
-                    list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
-                    list += '<div class="text-center"><h3><a href="" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
+                    list += ' <a href="' + valueOfElement["SysUrl"] + '" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
+                    list += '<div class="text-center"><h3><a href="' + valueOfElement["SysUrl"] + '" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
                     list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
                     if (valueOfElement["BindState"] == "已绑定") {
                         list += '<button class="btn btn-block btn-success btn-lg">已绑定</button>';
                     }
                     else {
-                        list += '<button id="' + valueOfElement["SysInfoID"] + '" class="SysAdd btn btn-block btn-info btn-lg">添加</button>';
+                        list += '<button id="' + valueOfElement["SysInfoID"] + '" isLogin="' + valueOfElement["IsLogin"] + '" class="SysAdd btn btn-block btn-info btn-lg">添加</button>';
                     }
                     list += '</div>';
                     list += '</div>';
                     list += '</div>';
                 });
-                $("#" + listID).append(list);
+                $("#" + listID).empty().append(list);
             });
         }
-        LoadSys("sysListProduce","生产");
-        LoadSys("sysListManagement","经营");
-        LoadSys("sysListService","服务");
+        LoadSysAll();
+
+        function LoadSysAll() {
+            LoadSys("sysListProduce", "生产");
+            LoadSys("sysListManagement", "经营");
+            LoadSys("sysListService", "服务");
+        }
 
         $(document).on("click", ".SysAdd", function () {
-            ClearForm();
-            $("#addModal").modal("show");
-            $("#SysID").val($(this).attr("id"));
+            var sysID = $(this).attr("id")
+            if ($(this).attr("isLogin") == '是') {
+                ClearForm();
+                $("#addModal").modal("show");
+                $("#SysID").val(sysID);
+            }
+            else {
+                Ewin.confirm({ message: "确定要添加吗？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    else {
+                        $.post("/SysInfo/BindSysLogin", { "tbxPwd": "", "tbxUserNum": "", "SysID": sysID }, function (result) {
+                            console.log(result);
+                            if (result === "ok") {
+                                toastr.success("操作成功！", "提示");
+                                LoadSysAll();
+                                GetSysCount();
+                            }
+                        });
+                    }
+                });
+            }
         });
 
         $("#btnSubmit").click(function () {
@@ -138,11 +162,12 @@
                         url: "/SysInfo/BindSysLogin",
                         type: "post",
                         success: function (result) {
-                            console.log(result);
-                            //if (result === "ok") {
-                            //    toastr.success("操作成功！", "提示");
-                            //    BackView();
-                            //}
+                            //console.log(result);
+                            if (result === "ok") {
+                                toastr.success("操作成功！", "提示");
+                                LoadSysAll();
+                                GetSysCount();
+                            }
                         },
                         error: function (error) {
                             toastr.error(error, "提示");

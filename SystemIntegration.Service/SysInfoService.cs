@@ -18,7 +18,9 @@ namespace SystemIntegration.Service
         private IGenericRepository<SysInfo> repoSys;
         private IGenericRepository<UserSys> repoUserSys;
         private IGenericRepository<LogInfo> repoLog;
-        public SysInfoService(IGenericRepository<SysInfo> repositorySys, IGenericRepository<UserSys> repositoryUserSys,IGenericRepository<LogInfo> repositoryLogInfo)
+        public SysInfoService(IGenericRepository<SysInfo> repositorySys,
+            IGenericRepository<UserSys> repositoryUserSys,
+            IGenericRepository<LogInfo> repositoryLogInfo)
         {
             repoSys = repositorySys;
             repoUserSys = repositoryUserSys;
@@ -60,6 +62,8 @@ namespace SystemIntegration.Service
       ,[SysType]
       ,[LoginUrl]
       ,[SysOrder]
+      ,SysUrl
+      ,IsLogin
       ,(select [BindState] from [UserSys] t where t.UserNum=@userNum and t.SysInfoID=s.SysInfoID) as BindState
   FROM [SystemIntegration].[dbo].[SysInfo] s where s.SysType=@sysType order by SysOrder";
                 SqlParameter[] parameter = new SqlParameter[2];
@@ -94,11 +98,13 @@ namespace SystemIntegration.Service
             return repoUserSys.Insert(userSys) ? "ok" : "error";
         }
 
-        public VLoginCheckPwd CheckSysLogin(string loginName, string loginPwd,int sysID)
+        public VLoginCheckPwd CheckSysLogin(string loginName, string loginPwd, int sysID)
         {
             //md5加密的作用：防止数据库丢失后，密码泄露
             //修改系统表字段
             //建立验证存储过程模板
+            //用户登录时候，判断员工编号和考勤密码是否一致，判断员工编号在用户表中是否存在，如果不存在，自动增加用户信息。
+
             //select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123' + '178DCC60-699E-49F9-BE86-02D58A86AD32')),3,32)
 
             //1、建立应用集中平台，避免在门口找系统，提高效率。不光可以挂载登录系统，也可挂载非登录系统，形成个人办公平台。
@@ -107,6 +113,11 @@ namespace SystemIntegration.Service
             //4、解决了以往单点登录平台，系统需管理员需手工同步用户数据的问题，用户也可及时更新系统登录信息。变被动加入为用户主动添加。
             //5、在统一的系统中，提报各系统的问题和建议，完成对系统的评价，信息中心及时掌握用户的需求并加以解决。
             //6、登录随机码，在登录方法日志中生成，建立视图供系统登录访问。
+            //7、实现用户自定义标签功能，可按标签查找，提供员工自己的系统使用环境
+            //8、员工记事本功能，工作计划录入功能等便捷小功能。
+            //9、对行政办公等系统建立接口
+
+
 
             var userPwd = MD5Encrypt(loginPwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
 
@@ -146,13 +157,13 @@ namespace SystemIntegration.Service
 
         public string UpdateSysInfo(VSysInfo sysInfo)
         {
-            var info = repoSys.GetByID(sysInfo.SysID);
+            var info = repoSys.GetByID(sysInfo.SysInfoID);
             return repoSys.Update(MapToSysInfo(sysInfo, info)) ? "ok" : "error";
         }
 
         public SysInfo MapToSysInfo(VSysInfo v, SysInfo entity)
         {
-            entity.SysInfoID = v.SysID;
+            entity.SysInfoID = v.SysInfoID;
             entity.SysName = v.SysName;
             entity.SysDesc = v.SysDesc;
             entity.SysIcon = v.SysIcon;
@@ -162,6 +173,16 @@ namespace SystemIntegration.Service
             entity.TechnicalContactPhone = v.TechnicalContactPerson;
             entity.SysState = v.SysState;
             entity.SysOrder = v.SysOrder;
+            entity.IsLogin = v.IsLogin;
+            entity.SysTypeSub = v.SysTypeSub;
+            entity.SysUrl = v.SysUrl;
+            entity.ManageContactPerson = v.ManageContactPerson;
+            entity.ManageContactPhone = v.ManageContactPhone;
+            entity.LoginCheckDataBaseIP = v.LoginCheckDataBaseIP;
+            entity.LoginCheckDataBaseName = v.LoginCheckDataBaseName;
+            entity.LoginCheckDataBaseStoredProcedure = v.LoginCheckDataBaseStoredProcedure;
+            entity.LoginCheckDataBaseUserName = v.LoginCheckDataBaseUserName;
+            entity.LoginCheckDataBaseUserPwd = v.LoginCheckDataBaseUserPwd;
             return entity;
         }
 
@@ -183,31 +204,66 @@ namespace SystemIntegration.Service
             return tmp.ToString();
         }
 
-        static string UserMd5(string str)
+        public string BindUserSys(string userNum, string userIP, string userName, string loginName, string loginPwd, int sysID)
         {
-            string cl = str;
-            string pwd = "";
-            MD5 md5 = MD5.Create();//实例化一个md5对像
-            // 加密后是一个字节类型的数组，这里要注意编码UTF8/Unicode等的选择　
-            byte[] s = md5.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(cl));
-            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
-            for (int i = 0; i < s.Length; i++)
+            var loginPwdMD5 = MD5Encrypt(loginPwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
+            var dbResult = false;//判断数据库操作是否执行成功
+
+            var userSys = new UserSys();
+            userSys.UserNum = userNum;
+            userSys.BindState = "已绑定";
+            userSys.SysInfoID = sysID;
+
+            var sysInfo = repoSys.GetByID(sysID);
+            if (sysInfo.IsLogin=="是")
             {
-                // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符
+                var resultLoginCheck = CheckLoginByStoredProcedure(
+                sysInfo.LoginCheckDataBaseIP,
+                sysInfo.LoginCheckDataBaseName,
+                sysInfo.LoginCheckDataBaseUserName,
+                sysInfo.LoginCheckDataBaseUserPwd,
+                sysInfo.LoginCheckDataBaseStoredProcedure,
+                loginName,
+                loginPwdMD5,
+                sysInfo.LoginType
+                );
 
-                pwd = pwd + s[i].ToString("X");
-
+                if (resultLoginCheck == "yes")
+                {//如果用户名、密码正确，将该系统绑定赋值给用户
+                    //添加UserSys表记录
+                    //写入操作到日志
+                    //返回“ok”到前端
+                    userSys.LoginType = sysInfo.LoginType;
+                    userSys.LoginName = loginName;
+                    userSys.LoginPwd = loginPwdMD5;
+                    
+                }
+                else
+                {
+                    //系统认证失败，如果该系统已经绑定，则解除该系统绑定信息，前端提示用户
+                    //向前端返回“no”
+                    return "no";
+                }
             }
-            return pwd;
+
+            dbResult = repoUserSys.Insert(userSys);
+
+            var logInfo = new LogInfo();
+            logInfo.LogIP = userIP;
+            logInfo.LogDateTime = DateTime.Now;
+            logInfo.LogContent = "成功绑定系统：" + sysInfo.SysName;
+            logInfo.LogPersonNum = userNum;
+            logInfo.LogType = "系统绑定";
+            logInfo.LogSysID = sysID;
+            dbResult = repoLog.Insert(logInfo);
+
+            return dbResult ? "ok" : "dbError";
         }
 
-        public string BindUserSys(string userNum,string userIP, string userName, string loginName, string loginPwd, int sysID)
+        public string CheckLoginByStoredProcedure(string ip, string db, string user, string pwd, string proc, string loginName, string loginPwd, string loginType)
         {
-            //var loginPwdMD5 = MD5Encrypt(loginPwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
-            var loginPwdMD5 = UserMd5(loginPwd);
-            var sysInfo = repoSys.GetByID(sysID);
 
-            string strConnection = "user id="+sysInfo.LoginCheckDataBaseUserName+";password="+sysInfo.LoginCheckDataBaseUserPwd+";initial catalog = "+sysInfo.LoginCheckDataBaseName+"; Server = "+sysInfo.LoginCheckDataBaseIP+"";
+            string strConnection = "user id=" + user + ";password=" + pwd + ";initial catalog = " + db + "; Server = " + ip + "";
             using (SqlConnection conn = new SqlConnection(strConnection))
             {
                 try
@@ -215,68 +271,32 @@ namespace SystemIntegration.Service
                     conn.Open();
                     using (SqlCommand sqlComm = conn.CreateCommand())
                     {
-                        sqlComm.CommandText = sysInfo.LoginCheckDataBaseStoredProcedure;
+                        sqlComm.CommandText = proc;
                         sqlComm.CommandType = CommandType.StoredProcedure;
 
                         //用户名
                         SqlParameter sqlParameterLoginName = sqlComm.Parameters.Add(new SqlParameter("@loginName", SqlDbType.NVarChar, 50));
                         sqlParameterLoginName.Direction = ParameterDirection.Input;
-                        sqlParameterLoginName.Value = loginName;
+                        sqlParameterLoginName.Value = user;
 
                         //密码
-                        SqlParameter sqlParameterPwd =sqlComm.Parameters.Add(new SqlParameter("@loginPwd", SqlDbType.NVarChar, 50));
+                        SqlParameter sqlParameterPwd = sqlComm.Parameters.Add(new SqlParameter("@loginPwd", SqlDbType.NVarChar, 50));
                         sqlParameterPwd.Direction = ParameterDirection.Input;
-                        //sqlParameterPwd.Value = loginPwdMD5;
                         sqlParameterPwd.Value = loginPwd;
 
                         //登录类型
                         SqlParameter sqlParameterLoginType = sqlComm.Parameters.Add(new SqlParameter("@loginType", SqlDbType.NVarChar, 50));
                         sqlParameterLoginType.Direction = ParameterDirection.Input;
-                        sqlParameterLoginType.Value = sysInfo.LoginType;
+                        sqlParameterLoginType.Value = loginType;
 
                         //存储过程返回数据
                         SqlParameter sqlResult = sqlComm.Parameters.Add(new SqlParameter("@result", SqlDbType.NVarChar, 20));
                         sqlResult.Direction = ParameterDirection.Output;
                         sqlComm.ExecuteNonQuery();
-                        var result = sqlComm.Parameters["@result"].Value.ToString();
-                        conn.Close();
-
-                        if (result == "yes")
-                        {
-                            //如果用户名、密码正确，将该系统绑定赋值给用户
-                            //添加UserSys表记录
-                            //写入操作到日志
-                            //返回“ok”到前端
-
-                            var dbResult = false;//判断数据库操作是否执行成功
-
-                            var userSys = new UserSys();
-                            userSys.LoginType = sysInfo.LoginType;
-                            userSys.LoginName = loginName;
-                            userSys.LoginPwd = loginPwdMD5;
-                            userSys.UserNum = userNum;
-                            userSys.BindState = "已绑定";
-                            userSys.SysInfoID = sysID;
-                            dbResult=repoUserSys.Insert(userSys);
-
-                            var logInfo = new LogInfo();
-                            logInfo.LogIP = userIP;
-                            logInfo.LogDateTime = DateTime.Now;
-                            logInfo.LogContent = "成功绑定系统："+sysInfo.SysName;
-                            logInfo.LogPersonNum = userNum;
-                            logInfo.LogType = "系统绑定";
-                            logInfo.LogSysID = sysID;
-                            dbResult=repoLog.Insert(logInfo);
-
-                            return dbResult?"ok":"error";
-                        }
-                        else
-                        {
-                            return "error";
-                        }
+                        return sqlComm.Parameters["@result"].Value.ToString();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return ex.Message;
                 }
@@ -284,6 +304,56 @@ namespace SystemIntegration.Service
                 {
                     conn.Close();
                 }
+            }
+        }
+
+        public string RedirectToSys(int sysID,string userNum,string ip)
+        {
+            var sysInfo = repoSys.GetByID(sysID);
+            var sysUserInfo = repoUserSys.GetList().Where(w => w.SysInfoID == sysID && w.UserNum == userNum).FirstOrDefault();
+            if (sysInfo.IsLogin == "是")
+            {
+                var resultLoginCheck = CheckLoginByStoredProcedure(
+                sysInfo.LoginCheckDataBaseIP,
+                sysInfo.LoginCheckDataBaseName,
+                sysInfo.LoginCheckDataBaseUserName,
+                sysInfo.LoginCheckDataBaseUserPwd,
+                sysInfo.LoginCheckDataBaseStoredProcedure,
+                sysUserInfo.LoginName,
+                sysUserInfo.LoginPwd,
+                sysInfo.LoginType
+                );
+                if (resultLoginCheck=="yes")
+                {
+                    var token = new Guid().ToString();
+
+                    var logInfo = new LogInfo();
+                    logInfo.LogIP = ip;
+                    logInfo.LogDateTime = DateTime.Now;
+                    logInfo.LogContent = "访问系统：" + sysInfo.SysName;
+                    logInfo.LogPersonNum = userNum;
+                    logInfo.LogPersonName = userNum;
+                    logInfo.LogType = "系统访问";
+                    logInfo.LogSysID = sysID;
+
+                    logInfo.LoginName = sysUserInfo.LoginName;
+                    logInfo.LoginPwd = sysUserInfo.LoginPwd;
+                    logInfo.LoginType = sysInfo.LoginType;
+                    logInfo.Token = token;
+
+                    var returnUrl = sysInfo.LoginUrl + "?token=" + token;
+                    var dbResult = repoLog.Insert(logInfo);
+
+                    return dbResult?returnUrl:"dbError";
+                }
+                else
+                {
+                    return "userOrPwdError";
+                }
+            }
+            else
+            {
+                return sysInfo.SysUrl;
             }
         }
     }

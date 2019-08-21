@@ -22,6 +22,10 @@
           <Property Name="LogCol3" Type="nvarchar" MaxLength="500" />
           <Property Name="LogCol4" Type="nvarchar" MaxLength="500" />
           <Property Name="LogCol5" Type="nvarchar" MaxLength="500" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="500" />
+          <Property Name="LoginPwd" Type="nvarchar" MaxLength="500" />
+          <Property Name="LoginType" Type="nvarchar" MaxLength="500" />
+          <Property Name="Token" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SysInfo">
           <Key>
@@ -106,6 +110,10 @@
           <Property Name="LogCol3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LogCol4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LogCol5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LoginPwd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LoginType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Token" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -166,6 +174,10 @@
           <EntitySetMapping Name="LogInfo">
             <EntityTypeMapping TypeName="SystemIntegrationModel.LogInfo">
               <MappingFragment StoreEntitySet="LogInfo">
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+                <ScalarProperty Name="LoginPwd" ColumnName="LoginPwd" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
                 <ScalarProperty Name="LogCol5" ColumnName="LogCol5" />
                 <ScalarProperty Name="LogCol4" ColumnName="LogCol4" />
                 <ScalarProperty Name="LogCol3" ColumnName="LogCol3" />
