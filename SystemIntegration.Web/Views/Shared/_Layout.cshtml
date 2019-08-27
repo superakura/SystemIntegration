@@ -28,7 +28,7 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini fixed">
     @System.Web.Optimization.Scripts.Render("~/bundles/LayoutJS")
     <div class="wrapper">
         <!-- 顶端信息 -->
@@ -263,9 +263,7 @@
                 }
             }
 
-            $(document).ready(function () {
-                //获取系统数量
-                function GetSysCount() {
+            function GetSysCount() {
                     $.post("/SysInfo/GetSysCount", {},
                         function (data, textStatus, jqXHR) {
                             //console.log(data);
@@ -274,6 +272,9 @@
                         }
                     );
                 }
+            $(document).ready(function () {
+                //获取系统数量
+                
                 GetSysCount();
 
                 //$('.sidebar-menu').tree();

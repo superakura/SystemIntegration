@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using SystemIntegration.Models;
 using SystemIntegration.Service.ViewModels;
 using SystemIntegration.Repository;
+using AutoMapper.Mappers;
+using AutoMapper;
 
 namespace SystemIntegration.Service
 {
@@ -38,6 +40,13 @@ namespace SystemIntegration.Service
             var rows = list.OrderByDescending(o=>o.LogDateTime).Skip(input.offset).Take(input.limit).ToList();
             var total = list.Count();
             return new VPageBootstrapTable<LogInfo> { rows =rows , total = total };
+        }
+
+        public bool Insert(VLogInfo vLogInfo)
+        {
+            Mapper.Initialize(x => x.CreateMap<LogInfo, VLogInfo>());
+            var info= Mapper.Map<VLogInfo,LogInfo>(vLogInfo);
+            return _logInfoRepo.Insert(info);
         }
     }
 }

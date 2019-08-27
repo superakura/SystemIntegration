@@ -11,5 +11,7 @@ namespace SystemIntegration.Service
     public interface ILogInfoService
     {
         VPageBootstrapTable<LogInfo> GetLogInfoList(VLogListCondition input);
+
+        bool Insert(VLogInfo logInfo);
     }
 }

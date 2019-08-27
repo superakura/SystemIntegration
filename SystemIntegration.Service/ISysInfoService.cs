@@ -96,5 +96,11 @@ namespace SystemIntegration.Service
         /// <param name="ip"></param>
         /// <returns></returns>
         string RedirectToSys(int sysID, string userNum, string ip);
+
+        /// <summary>
+        /// 用户系统解除绑定,成功返回“ok”,失败返回“error”
+        /// </summary>
+        /// <returns></returns>
+        string RemoveUserSys(int sysID, string userNum, string ip);
     }
 }

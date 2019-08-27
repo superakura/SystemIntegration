@@ -192,19 +192,32 @@ namespace SystemIntegration.Web.Controllers
         {
             //1、 判断系统是否需要登录
             //2、如果不需要登录，直接转跳
-
             //3、如果需要登录，首先根据存储过程判断用户名、密码是否正确
             //4、如果不正确，提示用户用户名、密码不正确，询问是否解除绑定。
             //5、如解除绑定，则删除用户系统表中记录
             //6、如果密码正确，添加访问日志到日志表，
             //7、日志表中写入随机访问码，同时写入用户名，密码md5，登录用户类型
             //8、将用户名，密码md5，登录用户类型，传递到该系统的转跳访问地址
+            //9、创建验证用户名tokenUser,密码：rjkf@scl607
+            //10、创建存储过程，GetLoginInfoByToken
+
             var sysID = 0;
             int.TryParse(Request.Form["sysID"], out sysID);
 
             var userNum = User.Identity.Name;
             var userIP = Request.UserHostAddress;
+
             return service.RedirectToSys(sysID, userNum, userIP);
+        }
+
+        public string RemoveUserSys()
+        {
+            var sysID = 0;
+            int.TryParse(Request.Form["sysID"], out sysID);
+
+            var userNum = User.Identity.Name;
+            var userIP = Request.UserHostAddress;
+            return service.RemoveUserSys(sysID, userNum, userIP);
         }
     }
 }

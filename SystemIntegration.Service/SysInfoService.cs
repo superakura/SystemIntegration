@@ -42,6 +42,8 @@ namespace SystemIntegration.Service
                            SysName = s.SysName,
                            BindState = u.BindState,
                            SysIcon = s.SysIcon,
+                           SysUrl=s.SysUrl,
+                           IsLogin=s.IsLogin,
                            SysType = s.SysType,
                            ContactPhone = s.TechnicalContactPhone,
                            ContactPerson = s.TechnicalContactPerson,
@@ -262,7 +264,7 @@ namespace SystemIntegration.Service
 
         public string CheckLoginByStoredProcedure(string ip, string db, string user, string pwd, string proc, string loginName, string loginPwd, string loginType)
         {
-
+            //return "yes";//测试时候用
             string strConnection = "user id=" + user + ";password=" + pwd + ";initial catalog = " + db + "; Server = " + ip + "";
             using (SqlConnection conn = new SqlConnection(strConnection))
             {
@@ -277,7 +279,7 @@ namespace SystemIntegration.Service
                         //用户名
                         SqlParameter sqlParameterLoginName = sqlComm.Parameters.Add(new SqlParameter("@loginName", SqlDbType.NVarChar, 50));
                         sqlParameterLoginName.Direction = ParameterDirection.Input;
-                        sqlParameterLoginName.Value = user;
+                        sqlParameterLoginName.Value = loginName;
 
                         //密码
                         SqlParameter sqlParameterPwd = sqlComm.Parameters.Add(new SqlParameter("@loginPwd", SqlDbType.NVarChar, 50));
@@ -307,6 +309,13 @@ namespace SystemIntegration.Service
             }
         }
 
+        /// <summary>
+        /// 用户系统转跳
+        /// </summary>
+        /// <param name="sysID"></param>
+        /// <param name="userNum"></param>
+        /// <param name="ip"></param>
+        /// <returns></returns>
         public string RedirectToSys(int sysID,string userNum,string ip)
         {
             var sysInfo = repoSys.GetByID(sysID);
@@ -325,7 +334,7 @@ namespace SystemIntegration.Service
                 );
                 if (resultLoginCheck=="yes")
                 {
-                    var token = new Guid().ToString();
+                    var token = Guid.NewGuid().ToString();
 
                     var logInfo = new LogInfo();
                     logInfo.LogIP = ip;
@@ -355,6 +364,41 @@ namespace SystemIntegration.Service
             {
                 return sysInfo.SysUrl;
             }
+        }
+
+        /// <summary>
+        /// 解除用户系统绑定
+        /// </summary>
+        /// <param name="sysID"></param>
+        /// <param name="userNum"></param>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public string RemoveUserSys(int sysID, string userNum, string ip)
+        {
+            try
+            {
+                var sysInfo = repoSys.GetByID(sysID);
+                var sysUserInfo = repoUserSys.GetList().Where(w => w.SysInfoID == sysID && w.UserNum == userNum).FirstOrDefault();
+                var dbResult = false;
+                dbResult = repoUserSys.Delete(sysUserInfo.UserSysID);
+
+                var logInfo = new LogInfo();
+                logInfo.LogIP = ip;
+                logInfo.LogDateTime = DateTime.Now;
+                logInfo.LogContent = "解除绑定系统：" + sysInfo.SysName;
+                logInfo.LogPersonNum = userNum;
+                logInfo.LogPersonName = userNum;
+                logInfo.LogType = "解除绑定";
+                logInfo.LogSysID = sysID;
+                dbResult = repoLog.Insert(logInfo);
+
+                return dbResult? "ok":"error";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
     }
 }

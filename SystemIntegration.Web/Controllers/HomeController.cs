@@ -14,9 +14,11 @@ namespace SystemIntegration.Web.Controllers
     public class HomeController : Controller
     {
         private IUserInfoService _service;
-        public HomeController(IUserInfoService service)
+        private ILogInfoService _serviceLogInfo;
+        public HomeController(IUserInfoService service,ILogInfoService serviceLogInfo)
         {
             this._service = service;
+            this._serviceLogInfo = serviceLogInfo;
         }
         /// <summary>
         /// 考勤系统验证函数，员工编号、考勤系统密码
@@ -101,7 +103,7 @@ namespace SystemIntegration.Web.Controllers
 
             if (result == "yes")
             {
-                //判断员工编号是否为系统用户、判断用户是否删除
+                //判断用户是否存在，如果不存在则添加用户
                 var userInfo = _service.GetUserInfoByNum(userNum);
                 if (userInfo == null)
                 {
@@ -140,6 +142,15 @@ namespace SystemIntegration.Web.Controllers
                 System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
                 System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
                 #endregion
+
+                var logInfo = new Service.ViewModels.VLogInfo();
+                logInfo.LogDateTime = DateTime.Now;
+                logInfo.LogContent = "单点平台登录";
+                logInfo.LogPersonNum = userNum;
+                logInfo.LogPersonName = userNum;
+                logInfo.LogType = "登录";
+                logInfo.LogIP = Request.UserHostAddress;
+                _serviceLogInfo.Insert(logInfo);
 
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }

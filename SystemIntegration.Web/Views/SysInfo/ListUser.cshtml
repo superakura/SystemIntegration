@@ -50,22 +50,60 @@
                 //console.log(data);
                 var list = '';
                 $.each(data, function (indexInArray, valueOfElement) {
+                    var isLogin = valueOfElement["IsLogin"];
+                    var urlLink='<div class="text-center"><h3><a class="SysLink" href="javascript:void(0)" id="'+valueOfElement["SysInfoID"]+'">' + valueOfElement["SysName"] + '<br></a></h3>';
+                    var urlPic = ' <a class="SysLink" href="javascript:void(0)" id="' + valueOfElement["SysInfoID"] + '"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
+                    if (isLogin == "否") {
+                        urlLink='<div class="text-center"><h3><a href="' + valueOfElement["SysUrl"] + '" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
+                        urlPic = ' <a href="' + valueOfElement["SysUrl"] + '" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
+                    }
                     list += '<div class="col-sm-6 col-md-4 col-lg-3 ">';
                     list += '<div class="thumbnail" style="height: 336px;">';
-                    list += ' <a href="" title="" target="_blank"><img width="300" height="150" class="lazy" src="../Image/' + valueOfElement["SysIcon"] + '" /></a>';
-                    list += '<div class="text-center"><h3><a href="" title="" target="_blank">' + valueOfElement["SysName"] + '<br></a></h3>';
+                    list += urlPic;
+                    list += urlLink;
                     list += '<p class="text-left">' + valueOfElement["SysDesc"] + '</p>';
-                    list += '<button class="SysDel btn btn-block btn-danger btn-lg">解除绑定</button>';
+                    list += '<button id="' + valueOfElement["SysInfoID"] + '" class="SysDel btn btn-block btn-danger btn-lg">解除绑定</button>';
                     list += '</div>';
                     list += '</div>';
                     list += '</div>';
                 });
-                $("#" + listID).append(list);
+                $("#" + listID).empty().append(list);
             });
         }
-        LoadSys("sysListProduce","生产");
-        LoadSys("sysListManagement","经营");
-        LoadSys("sysListService","服务");
+
+        LoadUserSysAll();
+        function LoadUserSysAll() {
+            LoadSys("sysListProduce", "生产");
+            LoadSys("sysListManagement", "经营");
+            LoadSys("sysListService", "服务");
+        }
+
+        $(document).on("click", ".SysDel", function () {
+            var sysID = $(this).attr("id")
+            Ewin.confirm({ message: "确定要解除绑定吗？" }).on(function (e) {
+                if (!e) {
+                    return;
+                }
+                else {
+                    $.post("/SysInfo/RemoveUserSys", { "SysID": sysID }, function (result) {
+                        //console.log(result);
+                        if (result === "ok") {
+                            toastr.success("操作成功！", "提示");
+                            LoadUserSysAll();
+                            GetSysCount();
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).on("click", ".SysLink", function () {
+            var sysID = $(this).attr("id")
+            $.post("/SysInfo/RedirecToSys", { "SysID": sysID }, function (result) {
+                window.open(result, "_blank");
+                //window.location.href = "<a href='" + result + "' target='_blank'></a>";
+            });
+        });
     });
 </script>
 
