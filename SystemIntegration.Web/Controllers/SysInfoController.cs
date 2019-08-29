@@ -200,6 +200,7 @@ namespace SystemIntegration.Web.Controllers
             //8、将用户名，密码md5，登录用户类型，传递到该系统的转跳访问地址
             //9、创建验证用户名tokenUser,密码：rjkf@scl607
             //10、创建存储过程，GetLoginInfoByToken
+            //11、创建数据库时候，logintype不能为空，否在存储过程
 
             var sysID = 0;
             int.TryParse(Request.Form["sysID"], out sysID);

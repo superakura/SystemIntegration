@@ -14,10 +14,12 @@ namespace SystemIntegration.Service
     public class LogInfoService : ILogInfoService
     {
         private IGenericRepository<LogInfo> _logInfoRepo;
+        
         public LogInfoService(IGenericRepository<LogInfo> repo)
         {
             this._logInfoRepo = repo;
         }
+
         public VPageBootstrapTable<LogInfo> GetLogInfoList(VLogListCondition input)
         {
             var list = _logInfoRepo.GetList();
@@ -44,7 +46,6 @@ namespace SystemIntegration.Service
 
         public bool Insert(VLogInfo vLogInfo)
         {
-            Mapper.Initialize(x => x.CreateMap<LogInfo, VLogInfo>());
             var info= Mapper.Map<VLogInfo,LogInfo>(vLogInfo);
             return _logInfoRepo.Insert(info);
         }

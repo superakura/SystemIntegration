@@ -262,6 +262,18 @@ namespace SystemIntegration.Service
             return dbResult ? "ok" : "dbError";
         }
 
+        /// <summary>
+        /// 通过存储过程验证用户名密码
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="db"></param>
+        /// <param name="user"></param>
+        /// <param name="pwd"></param>
+        /// <param name="proc"></param>
+        /// <param name="loginName"></param>
+        /// <param name="loginPwd"></param>
+        /// <param name="loginType"></param>
+        /// <returns></returns>
         public string CheckLoginByStoredProcedure(string ip, string db, string user, string pwd, string proc, string loginName, string loginPwd, string loginType)
         {
             //return "yes";//测试时候用

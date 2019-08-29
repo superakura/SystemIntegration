@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.DirectoryServices;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -93,8 +95,7 @@ namespace SystemIntegration.Web.Controllers
         /// <param name="pwd"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost]
+        [AllowAnonymous][HttpPost]
         public ActionResult Login(string userNum, string pwd, string returnUrl)
         {
             //通过考勤数据库验证员工编号、考勤密码
@@ -103,46 +104,51 @@ namespace SystemIntegration.Web.Controllers
 
             if (result == "yes")
             {
-                //判断用户是否存在，如果不存在则添加用户
+                #region 判断用户是否存在，如果不存在则添加用户
                 var userInfo = _service.GetUserInfoByNum(userNum);
                 if (userInfo == null)
                 {
                     var userName = userNum;//通过考勤系统查询员工姓名
-                    _service.Insert(userNum, userName, "0", pwd, "日志,登录");
+                    _service.Insert(userNum, userName, "0", pwd, "日志,登录");//增加用户信息
                     userInfo = _service.GetUserInfoByNum(userNum);
                 }
                 else
                 {
                     userInfo.UserPwd = pwd;
-                    _service.Update(userInfo);
+                    _service.Update(userInfo);//更新用户密码
                 }
+                #endregion
+
                 //将用户的全部信息存入session，便于在其他页面调用
-                System.Web.HttpContext.Current.Session["user"] = userInfo;
+                //System.Web.HttpContext.Current.Session["user"] = userInfo;
 
                 #region 加载、设置用户权限
                 var userAuthorityString = userInfo.UserRole;
 
                 //写入用户角色
-                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1,
+                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(2,
                     userNum,
                     DateTime.Now,
-                    DateTime.Now.AddMinutes(40),
-                    true,
+                    DateTime.Now.AddMinutes(2),
+                    false,
                     userAuthorityString);
 
                 string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-                System.Web.HttpCookie authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                authCookie.Expires = authTicket.Expiration;
-
+                System.Web.HttpCookie authCookie = new System.Web.HttpCookie("dandian", encryptedTicket);
+                //if (authTicket.IsPersistent)
+                //{
+                //    authCookie.Expires = authTicket.Expiration;
+                //}
                 System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
                 #endregion
 
                 #region 设置用户姓名的cookie
                 var cUserName = System.Web.HttpContext.Current.Server.UrlEncode(userInfo.UserName);
-                System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("cUserName", cUserName);
+                System.Web.HttpCookie userNameCookie = new System.Web.HttpCookie("dandianUserName", cUserName);
                 System.Web.HttpContext.Current.Response.Cookies.Add(userNameCookie);
                 #endregion
 
+                #region 登录写入日志
                 var logInfo = new Service.ViewModels.VLogInfo();
                 logInfo.LogDateTime = DateTime.Now;
                 logInfo.LogContent = "单点平台登录";
@@ -151,6 +157,7 @@ namespace SystemIntegration.Web.Controllers
                 logInfo.LogType = "登录";
                 logInfo.LogIP = Request.UserHostAddress;
                 _serviceLogInfo.Insert(logInfo);
+                #endregion
 
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
@@ -182,6 +189,25 @@ namespace SystemIntegration.Web.Controllers
         public ViewResult Index()
         {
             return View();
+        }
+
+        public string MD5Encrypt(string password)
+        {
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+            byte[] hashedDataBytes;
+            hashedDataBytes = md5Hasher.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(password));
+            StringBuilder tmp = new StringBuilder();
+            foreach (byte i in hashedDataBytes)
+            {
+                tmp.Append(i.ToString("x2"));
+            }
+            return tmp.ToString();
+        }
+
+        [AllowAnonymous][HttpGet]
+        public string GetMd5(string pwd)
+        {
+            return MD5Encrypt(pwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
         }
     }
 }

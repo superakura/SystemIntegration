@@ -126,13 +126,16 @@
             LoadSys("sysListService", "服务");
         }
 
+        //系统绑定按钮
         $(document).on("click", ".SysAdd", function () {
             var sysID = $(this).attr("id")
+            //需要密码验证的系统，弹出用户名、密码表单进行验证
             if ($(this).attr("isLogin") == '是') {
                 ClearForm();
                 $("#addModal").modal("show");
                 $("#SysID").val(sysID);
             }
+            //不需要密码验证的系统
             else {
                 Ewin.confirm({ message: "确定要添加吗？" }).on(function (e) {
                     if (!e) {
@@ -140,7 +143,6 @@
                     }
                     else {
                         $.post("/SysInfo/BindSysLogin", { "tbxPwd": "", "tbxUserNum": "", "SysID": sysID }, function (result) {
-                            console.log(result);
                             if (result === "ok") {
                                 toastr.success("操作成功！", "提示");
                                 LoadSysAll();
@@ -152,6 +154,7 @@
             }
         });
 
+        //需要用户名、密码验证系统的表单提交
         $("#btnSubmit").click(function () {
             Ewin.confirm({ message: "确定要添加吗？" }).on(function (e) {
                 if (!e) {
@@ -168,9 +171,17 @@
                                 LoadSysAll();
                                 GetSysCount();
                             }
+                            if (result === "no") {
+                                toastr.error("用户名、密码验证失败！", "提示");
+                            }
+                            if (result==="dbError") {
+                                toastr.error("数据库错误！", "提示");
+                            }
+                            $("#addModal").modal("hide");
                         },
                         error: function (error) {
                             toastr.error(error, "提示");
+                            $("#addModal").modal("hide");
                             return;
                         }
                     });
