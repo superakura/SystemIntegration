@@ -134,6 +134,11 @@ namespace SystemIntegration.Service
             return repoSys.GetByID(sysID);
         }
 
+        /// <summary>
+        /// 获取系统信息分页列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public VPageBootstrapTable<SysInfo> GetSysInfoPage(VSysInfoListCondition input)
         {
             var list = repoSys.GetList();
@@ -151,12 +156,22 @@ namespace SystemIntegration.Service
             return new VPageBootstrapTable<SysInfo> { rows = rows, total = total };
         }
 
+        /// <summary>
+        /// 添加一个系统信息
+        /// </summary>
+        /// <param name="sysInfo"></param>
+        /// <returns></returns>
         public string InsertSysInfo(VSysInfo sysInfo)
         {
             var info = new SysInfo();
             return repoSys.Insert(MapToSysInfo(sysInfo, info)) ? "ok" : "error";
         }
 
+        /// <summary>
+        /// 更新系统信息
+        /// </summary>
+        /// <param name="sysInfo"></param>
+        /// <returns></returns>
         public string UpdateSysInfo(VSysInfo sysInfo)
         {
             var info = repoSys.GetByID(sysInfo.SysInfoID);
@@ -206,6 +221,16 @@ namespace SystemIntegration.Service
             return tmp.ToString();
         }
 
+        /// <summary>
+        /// 用户系统绑定
+        /// </summary>
+        /// <param name="userNum"></param>
+        /// <param name="userIP"></param>
+        /// <param name="userName"></param>
+        /// <param name="loginName"></param>
+        /// <param name="loginPwd"></param>
+        /// <param name="sysID"></param>
+        /// <returns></returns>
         public string BindUserSys(string userNum, string userIP, string userName, string loginName, string loginPwd, int sysID)
         {
             var loginPwdMD5 = MD5Encrypt(loginPwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");

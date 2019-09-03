@@ -11,6 +11,7 @@ using TenderInfo.App_Start;
 using AutoMapper;
 using SystemIntegration.Models;
 using SystemIntegration.Service.ViewModels;
+using SystemIntegration.Service.Dtos;
 using System.Security.Principal;
 
 namespace SystemIntegration.Web
@@ -25,7 +26,11 @@ namespace SystemIntegration.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Mapper.Initialize(x => x.CreateMap<LogInfo, VLogInfo>());
+            Mapper.Initialize(x => {
+                x.CreateMap<LogInfo, VLogInfo>();
+                x.CreateMap<NoticeInfo, NoticeInfoDto>();
+                });
+            //Mapper.Initialize(x => x.CreateMap<NoticeInfo, NoticeInfoDto>());
 
             //初始化容器，并返回适用于MVC的AutoFac解析器
             System.Web.Mvc.IDependencyResolver autoFacResolver = Container.Init();

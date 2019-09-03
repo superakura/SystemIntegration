@@ -27,6 +27,18 @@
           <Property Name="LoginType" Type="nvarchar" MaxLength="500" />
           <Property Name="Token" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="NoticeInfo">
+          <Key>
+            <PropertyRef Name="NoticeInfoID" />
+          </Key>
+          <Property Name="NoticeInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoticeTitle" Type="nvarchar" MaxLength="200" />
+          <Property Name="NoticeContent" Type="nvarchar" MaxLength="2000" />
+          <Property Name="ContentType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContentCount" Type="int" />
+          <Property Name="InsertPersonNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="InsertDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="SysInfo">
           <Key>
             <PropertyRef Name="SysInfoID" />
@@ -79,6 +91,7 @@
         </EntityType>
         <EntityContainer Name="SystemIntegrationModelStoreContainer">
           <EntitySet Name="LogInfo" EntityType="Self.LogInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NoticeInfo" EntityType="Self.NoticeInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysInfo" EntityType="Self.SysInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSys" EntityType="Self.UserSys" Schema="dbo" store:Type="Tables" />
@@ -92,6 +105,7 @@
           <EntitySet Name="UserInfo" EntityType="SystemIntegrationModel.UserInfo" />
           <EntitySet Name="UserSys" EntityType="SystemIntegrationModel.UserSys" />
           <EntitySet Name="SysInfo" EntityType="SystemIntegrationModel.SysInfo" />
+          <EntitySet Name="NoticeInfo" EntityType="SystemIntegrationModel.NoticeInfo" />
         </EntityContainer>
         <EntityType Name="LogInfo">
           <Key>
@@ -164,6 +178,18 @@
           <Property Name="LoginCheckDataBaseUserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LoginCheckDataBaseUserPwd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LoginCheckDataBaseStoredProcedure" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NoticeInfo">
+          <Key>
+            <PropertyRef Name="NoticeInfoID" />
+          </Key>
+          <Property Name="NoticeInfoID" Type="Int32" Nullable="false" />
+          <Property Name="NoticeTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NoticeContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContentCount" Type="Int32" />
+          <Property Name="InsertPersonNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -244,6 +270,19 @@
                 <ScalarProperty Name="SysDesc" ColumnName="SysDesc" />
                 <ScalarProperty Name="SysName" ColumnName="SysName" />
                 <ScalarProperty Name="SysInfoID" ColumnName="SysInfoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NoticeInfo">
+            <EntityTypeMapping TypeName="SystemIntegrationModel.NoticeInfo">
+              <MappingFragment StoreEntitySet="NoticeInfo">
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertPersonNum" ColumnName="InsertPersonNum" />
+                <ScalarProperty Name="ContentCount" ColumnName="ContentCount" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="NoticeContent" ColumnName="NoticeContent" />
+                <ScalarProperty Name="NoticeTitle" ColumnName="NoticeTitle" />
+                <ScalarProperty Name="NoticeInfoID" ColumnName="NoticeInfoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
