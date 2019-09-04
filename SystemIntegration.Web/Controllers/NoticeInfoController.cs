@@ -85,14 +85,14 @@ namespace SystemIntegration.Web.Controllers
             try
             {
                 var id = 0;
-                int.TryParse(Request.Form["id"],out id);
+                int.TryParse(Request.Form["tbxNoticeInfoID"],out id);
 
                 var info = id == 0 ?new NoticeInfoDto():_serviceNotice.GetOne(id);
                 info.InsertPersonNum = User.Identity.Name;
                 info.InsertDate = DateTime.Now;
-                info.NoticeContent= Request.Form["content"].ToString();
-                info.NoticeTitle= Request.Form["title"].ToString();
-                info.ContentType= Request.Form["type"].ToString();
+                info.NoticeContent= Request.Form["tbxNoticeContent"].ToString();
+                info.NoticeTitle= Request.Form["tbxNoticeTitle"].ToString();
+                info.ContentType= Request.Form["tbxContentType"].ToString();
 
                 return _serviceNotice.Save(info) ?"ok":"error";
             }

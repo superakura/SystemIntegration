@@ -54,20 +54,10 @@ namespace SystemIntegration.Service
             return Mapper.Map<NoticeInfo, NoticeInfoDto>(entity); 
         }
 
-        public bool Insert(NoticeInfo info)
-        {
-            return this._repoNoticeInfo.Insert(info);
-        }
-
         public bool Save(NoticeInfoDto info)
         {
             var entity = Mapper.Map<NoticeInfoDto, NoticeInfo>(info);
-            return info.NoticeInfoID == 0 ?_repoNoticeInfo.Insert(entity):_repoNoticeInfo.Update(entity);
-        }
-
-        public bool Update(NoticeInfo info)
-        {
-            return _repoNoticeInfo.Update(info);
+            return info.NoticeInfoID == 0 ? _repoNoticeInfo.Insert(entity) : _repoNoticeInfo.Update(entity);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,9 +48,31 @@ namespace SystemIntegration.Repository
 
         public bool Update(TEntity entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentException("entity");
+            }
+            if (db.Entry(entity).State == EntityState.Detached)
+            {
+                HandleDetached(entity);
+            }
             dbset.Attach(entity);
             db.Entry(entity).State = EntityState.Modified;
             return db.SaveChanges()==1?true:false;
+        }
+
+        private bool HandleDetached(TEntity entity)
+        {
+            var objectContext = ((IObjectContextAdapter)db).ObjectContext;
+            var entitySet = objectContext.CreateObjectSet<TEntity>();
+            var entityKey = objectContext.CreateEntityKey(entitySet.EntitySet.Name, entity);
+            object foundSet;
+            bool exists = objectContext.TryGetObjectByKey(entityKey, out foundSet);
+            if (exists)
+            {
+                objectContext.Detach(foundSet); //从上下文中移除
+            }
+            return exists;
         }
     }
 }

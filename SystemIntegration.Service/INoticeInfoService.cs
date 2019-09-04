@@ -11,8 +11,6 @@ namespace SystemIntegration.Service
 {
     public interface INoticeInfoService
     {
-        bool Insert(NoticeInfo info);
-        bool Update(NoticeInfo info);
         bool Save(NoticeInfoDto info);
         bool Del(int noticeID);
         NoticeInfoDto GetOne(int noticeID);
