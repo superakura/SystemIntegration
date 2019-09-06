@@ -101,5 +101,20 @@ namespace SystemIntegration.Web.Controllers
                 return ex.Message;
             }
         }
+
+        [HttpPost]
+        public string Del()
+        {
+            try
+            {
+                var id = 0;
+                int.TryParse(Request.Form["id"], out id);
+                return _serviceNotice.Del(id)?"ok":"error";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

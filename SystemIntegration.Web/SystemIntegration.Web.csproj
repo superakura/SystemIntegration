@@ -427,6 +427,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="AdminLTE-dist\css\adminlte.css.map" />
     <Content Include="AdminLTE-dist\css\adminlte.min.css.map" />
+    <Content Include="Scripts\echarts.min.js" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
     <Content Include="Content\font-awesome\css\font-awesome.css.map" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />

@@ -147,19 +147,19 @@
             },
             'click .remove': function (e, value, row, index) {
                 var id = $(this).attr("data-uid");
-                Ewin.confirm({ message: "确认要删除公告信息吗？" }).on(function (e) {
+                Ewin.confirm({ message: "确认要删除吗？" }).on(function (e) {
                     if (!e) {
                         return;
                     }
                     else {
-                        var args = { "id": row.NoticeID };
-                        $.post("/NoticeInfo/Del", encodeURIComponent(JSON.stringify(args)), function (result) {
+                        $.post("/NoticeInfo/Del",{ "id": row.NoticeInfoID }, function (result) {
                             if (result == "ok") {
-                                toastr["success"]("删除公告成功", "提示");
+                                toastr["success"]("删除成功", "提示");
                                 $("#bsTable").bootstrapTable('refresh');
                             }
                             else {
-                                toastr["error"]("保存错误，请联系5613877！", "提示");
+                                console.log(result);
+                                toastr["error"]("系统错误，请联系5613877！", "提示");
                             }
                         });
                     }
@@ -204,7 +204,10 @@
             },
             {
                 field: 'InsertDate',
-                title: '操作时间'
+                title: '操作时间',
+                formatter: function (value, row, index) {
+                    return getJsonDateTime(row.InsertDate);
+                }
             },
             {
                 field: 'ContentType',

@@ -20,6 +20,11 @@ namespace SystemIntegration.Service
             this._logInfoRepo = repo;
         }
 
+        public List<string> GetLogInfoIP(string userNum)
+        {
+            return _logInfoRepo.GetList().Where(w => w.LogPersonNum == userNum).Select(s => s.LogIP).Distinct().ToList();
+        }
+         
         public VPageBootstrapTable<LogInfo> GetLogInfoList(VLogListCondition input)
         {
             var list = _logInfoRepo.GetList();
@@ -42,6 +47,11 @@ namespace SystemIntegration.Service
             var rows = list.OrderByDescending(o=>o.LogDateTime).Skip(input.offset).Take(input.limit).ToList();
             var total = list.Count();
             return new VPageBootstrapTable<LogInfo> { rows =rows , total = total };
+        }
+
+        public int GetUserLoginCount(string userNum)
+        {
+            return _logInfoRepo.GetList().Where(w => w.LogPersonNum == userNum&&w.LogType=="登录").Count();
         }
 
         public bool Insert(VLogInfo vLogInfo)

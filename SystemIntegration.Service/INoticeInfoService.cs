@@ -15,7 +15,6 @@ namespace SystemIntegration.Service
         bool Del(int noticeID);
         NoticeInfoDto GetOne(int noticeID);
         VPageBootstrapTable<NoticeInfo> GetNoticePageInfo(VNoticeInfoCondition searchInfo);
-
         List<NoticeInfo> GetNoticeInfoByCount(int infoCount);
     }
 }

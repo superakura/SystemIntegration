@@ -21,6 +21,7 @@ namespace SystemIntegration.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult GetLogInfoList()
         {
             var input = new VLogListCondition();
@@ -43,6 +44,32 @@ namespace SystemIntegration.Web.Controllers
                 input.QueryRole = "用户";
             }
             return Json(_service.GetLogInfoList(input));
+        }
+
+        [HttpPost]
+        public string GetUserLoginCount()
+        {
+            try
+            {
+                return _service.GetUserLoginCount(User.Identity.Name).ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetLogInfoIP()
+        {
+            try
+            {
+                return Json(_service.GetLogInfoIP(User.Identity.Name));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
     }
 }

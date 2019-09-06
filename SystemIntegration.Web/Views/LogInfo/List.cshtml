@@ -34,7 +34,6 @@
                 </form>
             </div>
         </div>
-        <hr />
         <div class="row">
             <div class="col-md-12">
                 <table id="bsTable"></table>
@@ -70,7 +69,10 @@
             },
             {
                 field: 'LogDateTime',
-                title: '日志时间'
+                title: '日志时间',
+                formatter: function (value, row, index) {
+                    return getJsonDateTime(row.LogDateTime);
+                }
             },
             {
                 field: 'LogContent',

@@ -13,5 +13,9 @@ namespace SystemIntegration.Service
         VPageBootstrapTable<LogInfo> GetLogInfoList(VLogListCondition input);
 
         bool Insert(VLogInfo logInfo);
+
+        List<string> GetLogInfoIP(string userNum);
+
+        int GetUserLoginCount(string userNum);
     }
 }
