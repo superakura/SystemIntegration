@@ -71,5 +71,31 @@ namespace SystemIntegration.Web.Controllers
                 return Json(ex.Message);
             }
         }
+
+        [HttpPost]
+        public JsonResult GetSysLoginCount()
+        {
+            try
+            {
+                return Json(_service.GetSysLoginCount(User.Identity.Name));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetSysTypeCount()
+        {
+            try
+            {
+                return Json(_service.GetSysTypeCount(User.Identity.Name));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>53<sup style="font-size: 20px"></sup></h3>
+                <h3>0<sup style="font-size: 20px"></sup></h3>
 
                 <p>待办任务</p>
             </div>
@@ -50,46 +50,16 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div id="mainEchart" style="width: 600px;height:400px;"></div>
+                    <div class="col-md-12">
+                        <div id="mainEchart" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
             <div class="box-footer">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="description-block border-right">
-                            <h5 class="description-header">33</h5>
-                            <span class="description-text">生产类</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="description-block border-right">
-                            <h5 class="description-header">22</h5>
-                            <span class="description-text">经营类</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="description-block border-right">
-                            <h5 class="description-header">15</h5>
-                            <span class="description-text">服务类</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="description-block">
-                            <h5 class="description-header">1200</h5>
-                            <span class="description-text">应用访问总数</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
+                <div class="row" id="listSysTypeCount">
+
+                    
                 </div>
-                <!-- /.row -->
             </div>
         </div>
     </div>
@@ -116,7 +86,7 @@
 @*待办*@
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-info">
+        <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">待办信息列表</h3>
 
@@ -127,93 +97,16 @@
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Item</th>
-                                <th>Status</th>
-                                <th>Popularity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-info">Processing</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00c0ef" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
+                <h3>开发中</h3>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
     </div>
 </div>
 @*公告、反馈*@
 <div class="row">
     <div class="col-md-6">
-        <div class="box box-info">
+        <div class="box box-warning">
             <div class="box-header with-border">
                 <h3 class="box-title">公告信息</h3>
 
@@ -226,23 +119,12 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <tbody>
-                            <tr><td>xxxx</td></tr>
-                            <tr><td>xxxx</td></tr>
-                            <tr><td>xxxx</td></tr>
-                            <tr><td>xxxx</td></tr>
-                            <tr><td>xxxx</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
+                <ul id="noticeList"></ul>
             </div>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="box box-info">
+        <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">意见及问题反馈</h3>
 
@@ -253,125 +135,84 @@
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Item</th>
-                                <th>Status</th>
-                                <th>Popularity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-info">Processing</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00c0ef" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
     </div>
 </div>
 <script>
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('mainEchart'));
+    EchartInit();
+    function EchartInit() {
+        var sysName = new Array();
+        var sysCount = new Array();
+        $.post("/LogInfo/GetSysLoginCount", "", function (result) {
+            $.each(result, function (indexInArray, valueOfElement) {
+                sysName[indexInArray] = valueOfElement["SysName"];
+                sysCount[indexInArray] = valueOfElement["LoginCount"];
+            });
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('mainEchart'));
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-            data: ['销量']
-        },
-        xAxis: {
-            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
+            // 指定图表的配置项和数据
+            var option = {
+                //title: {
+                //    text: '各应用访问量统计'
+                //},
+                tooltip: {},
+                legend: {
+                    data: ['访问次数']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                yAxis: {
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+                },
+                xAxis: {
+                    data: sysName,
+                    position: 'left',
+                    axisLabel: {
+                        margin: 8,
+                        showMinLabel: true,
+                        rotate: 20
+                    }
+                },
+                series: [{
+                    name: '访问次数',
+                    type: 'bar',
+                    data: sysCount,
+                    itemStyle:{  normal:{color:'DodgerBlue'}   },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideTop',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                        }
+                    },
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        });
+    }
 
     $(function () {
         GetNoticeInfo();
         GetIPList();
         GetLoginCount();
+        GetSysTypeCount();
         function GetIPList() {
             $.post("/LogInfo/GetLogInfoIP", "", function (result) {
                 var list = "";
                 for (var i = 0; i < result.length; i++) {
-                    list += "<li><h3>" + result[i] + "</h3></li>";
+                    list += "<li><h3>" + result[i]["IP"] + "  <span>【" + result[i]["LoginCount"] + "次】</span></h3></li>";
                 }
                 $("#IPList").empty().append(list);
             });
@@ -382,12 +223,35 @@
             });
         }
         function GetNoticeInfo() {
-            $.post("/NoticeInfo/GetNoticeListForLogin", "", function (result) {
+            $.post("/NoticeInfo/GetListCount", { "count": 8 }, function (result) {
                 var list = "";
                 for (var i = 0; i < result.length; i++) {
-                    list += "<li><h3><a href='/NoticeInfo/NoticeShow?id=" + result[i]["NoticeID"] + "' target='_blank'>" + (i + 1) + "、" + result[i]["NoticeTitle"] + "</a></h3></li>";
+                    list += "<li><h4><a href='/NoticeInfo/NoticeShow?id=" + result[i]["NoticeInfoID"] + "' target='_blank'>" + (i + 1) + "、" + result[i]["NoticeTitle"] + "</a></h4></li>";
                 }
                 $("#noticeList").empty().append(list);
+            });
+        }
+        function GetSysTypeCount() {
+            $.post("/LogInfo/GetSysTypeCount", "", function (result) {
+                console.log(result);
+                var list = "";
+                var countAll = 0;
+                $.each(result, function (indexInArray, valueOfElement) {
+                    list += '<div class="col-sm-3 col-xs-6">';
+                    list += '<div class="description-block border-right">'
+                    list += '<h5 class="description-header">' + valueOfElement["SysTypeCount"] + '</h5>'
+                    list += '<span class="description-text">' + valueOfElement["SysTypeName"] + '</span>'
+                    list += '</div>'
+                    list += '</div>';
+                    countAll += valueOfElement["SysTypeCount"];
+                });
+                list += '<div class="col-sm-3 col-xs-6">';
+                list += '<div class="description-block border-right">'
+                list += '<h5 class="description-header">' + countAll + '</h5>'
+                list += '<span class="description-text">应用访问总数</span>'
+                list += '</div>'
+                list += '</div>';
+                $("#listSysTypeCount").empty().append(list);
             });
         }
     });

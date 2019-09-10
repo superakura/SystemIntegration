@@ -14,8 +14,12 @@ namespace SystemIntegration.Service
 
         bool Insert(VLogInfo logInfo);
 
-        List<string> GetLogInfoIP(string userNum);
+        List<VLoginIP> GetLogInfoIP(string userNum);
 
         int GetUserLoginCount(string userNum);
+
+        List<VSysLoginCount> GetSysLoginCount(string userNum);
+
+        List<VSysTypeCount> GetSysTypeCount(string userNum);
     }
 }
