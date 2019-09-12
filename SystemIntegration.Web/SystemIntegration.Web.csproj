@@ -63,6 +63,7 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -134,6 +135,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Connected Services\wsDemo\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInfoController.cs" />
     <Compile Include="Controllers\NoticeInfoController.cs" />
@@ -385,6 +391,19 @@
     <Content Include="bootstrap-table-dist\locale\bootstrap-table-zh-CN.min.js" />
     <Content Include="bootstrap-table-dist\locale\bootstrap-table-zh-TW.js" />
     <Content Include="bootstrap-table-dist\locale\bootstrap-table-zh-TW.min.js" />
+    <Content Include="Connected Services\wsDemo\SystemIntegration.Web.wsDemo.HelloWorldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\wsDemo\SystemIntegration.Web.wsDemo.InsertSqlResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\wsDemo\WsInsertString.disco" />
+    <None Include="Connected Services\wsDemo\configuration91.svcinfo" />
+    <None Include="Connected Services\wsDemo\configuration.svcinfo" />
+    <None Include="Connected Services\wsDemo\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-table-fixed-columns.css" />
     <Content Include="Content\bootstrap-table-fixed-columns2.css" />
@@ -435,6 +454,7 @@
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
+    <None Include="Connected Services\wsDemo\WsInsertString.wsdl" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Ewin.js" />
     <Content Include="Scripts\html5shiv.js" />
@@ -510,6 +530,12 @@
       <Project>{874fa543-1e1c-4e4b-bba5-e50ab6ed0aac}</Project>
       <Name>SystemIntegration.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\wsDemo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

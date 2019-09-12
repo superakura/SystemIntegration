@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using SystemIntegration.Service;
+using SystemIntegration.Web.wsDemo;
 
 namespace SystemIntegration.Web.Controllers
 {
@@ -208,6 +209,18 @@ namespace SystemIntegration.Web.Controllers
         public string GetMd5(string pwd)
         {
             return MD5Encrypt(pwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
+        }
+
+        /// <summary>
+        /// 调用webservice的insert
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        [AllowAnonymous][HttpGet]
+        public string WebServiceInsertSql(string sql)
+        {
+            WsInsertStringSoapClient ws = new WsInsertStringSoapClient();
+            return ws.InsertSql(sql)+"--"+ws.HelloWorld();
         }
     }
 }
