@@ -34,7 +34,7 @@ namespace TenderInfo.App_Start
                       "~/Scripts/bootstrap-datetimepicker.zh-CN.js",
 
                       "~/AdminLTE-dist/js/adminlte.min.js",
-                      "~/AdminLTE-dist/js/demo.js",
+                      //"~/AdminLTE-dist/js/demo.js",
 
                       "~/Scripts/toastr.min.js",
                       "~/Scripts/echarts.min.js",

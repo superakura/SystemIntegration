@@ -30,6 +30,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
     @System.Web.Optimization.Scripts.Render("~/bundles/LayoutJS")
+    <script src="~/Scripts/sidebarskins.js" charset="gbk"></script>
     <div class="wrapper">
         <!-- 顶端信息 -->
         <header class="main-header">
@@ -65,12 +66,6 @@
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu tree" data-widget="tree">
-                    <li class="active">
-                        <a href="/Home/Index">
-                            <i class="fa fa-dashboard"></i>
-                            <span>首页</span>
-                        </a>
-                    </li>
                     <li>
                         <a href="/SysInfo/ListUser">
                             <i class="fa fa-laptop"></i>
@@ -87,6 +82,12 @@
                             <span class="pull-right-container">
                                 <span id="lblAllSys" class="label label-danger pull-right"></span>
                             </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/Home/Index">
+                            <i class="fa fa-dashboard"></i>
+                            <span>数据统计&公告信息</span>
                         </a>
                     </li>
                     <li>
@@ -129,12 +130,8 @@
 
         <!-- 控制侧边栏 -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Create the tabs -->
-            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            </ul>
-            <!-- Tab panes -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs"></ul>
             <div class="tab-content">
-                <!-- Home tab content -->
                 <div class="tab-pane" id="control-sidebar-home-tab">
 
                 </div>
@@ -269,20 +266,17 @@
             }
 
             function GetSysCount() {
-                    $.post("/SysInfo/GetSysCount", {},
-                        function (data, textStatus, jqXHR) {
-                            //console.log(data);
-                            $("#lblMySys").text(data.SysUserCount);
-                            $("#lblAllSys").text(data.SysAllCount);
-                        }
-                    );
-                }
+                $.post("/SysInfo/GetSysCount", {},
+                    function (data, textStatus, jqXHR) {
+                        //console.log(data);
+                        $("#lblMySys").text(data.SysUserCount);
+                        $("#lblAllSys").text(data.SysAllCount);
+                    }
+                );
+            }
             $(document).ready(function () {
                 //获取系统数量
-                
                 GetSysCount();
-
-                //$('.sidebar-menu').tree();
 
                 //退出系统按钮
                 $("#btnLogOut").click(function () {

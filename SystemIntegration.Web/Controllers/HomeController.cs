@@ -160,7 +160,7 @@ namespace SystemIntegration.Web.Controllers
                 _serviceLogInfo.Insert(logInfo);
                 #endregion
 
-                return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+                return Redirect(returnUrl ?? Url.Action("ListUser", "SysInfo"));
             }
             else
             {
