@@ -135,7 +135,7 @@
                 $("#addModal").modal("show");
                 $("#SysID").val(sysID);
             }
-            //不需要密码验证的系统
+            //不需要密码验证的系统，后台添加绑定信息和日志
             else {
                 Ewin.confirm({ message: "确定要添加吗？" }).on(function (e) {
                     if (!e) {
@@ -147,6 +147,9 @@
                                 toastr.success("操作成功！", "提示");
                                 LoadSysAll();
                                 GetSysCount();
+                            }
+                            if (result === "no") {
+                                toastr.error("用户验证失败！", "提示");
                             }
                         });
                     }

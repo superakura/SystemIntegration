@@ -242,7 +242,7 @@ namespace SystemIntegration.Service
             userSys.SysInfoID = sysID;
 
             var sysInfo = repoSys.GetByID(sysID);
-            if (sysInfo.IsLogin=="是")
+            if (sysInfo.IsLogin=="是"||sysInfo.IsLogin=="考勤登录")
             {
                 var resultLoginCheck = CheckLoginByStoredProcedure(
                 sysInfo.LoginCheckDataBaseIP,
@@ -256,7 +256,8 @@ namespace SystemIntegration.Service
                 );
 
                 if (resultLoginCheck == "yes")
-                {//如果用户名、密码正确，将该系统绑定赋值给用户
+                {
+                    //如果用户名、密码正确，将该系统绑定赋值给用户
                     //添加UserSys表记录
                     //写入操作到日志
                     //返回“ok”到前端

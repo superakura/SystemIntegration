@@ -180,9 +180,12 @@ namespace SystemIntegration.Web.Controllers
         {
             var loginPwd = Request.Form["tbxPwd"];
             var loginName = Request.Form["tbxUserNum"];
+
             var sysID = 0;
             int.TryParse(Request.Form["SysID"], out sysID);
+
             var userInfo = serviceUser.GetUserInfoByNum(User.Identity.Name);
+
             var ip = Request.UserHostAddress;
 
             return service.BindUserSys(userInfo.UserNum,ip,userInfo.UserName,loginName,loginPwd,sysID);
