@@ -8,6 +8,7 @@ using SystemIntegration.Service.ViewModels;
 
 namespace SystemIntegration.Web.Controllers
 {
+    [Authorize(Roles = "登录")]
     public class LogInfoController : Controller
     {
         private ILogInfoService _service;

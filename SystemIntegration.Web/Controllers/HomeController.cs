@@ -14,11 +14,12 @@ using SystemIntegration.Web.wsDemo;
 
 namespace SystemIntegration.Web.Controllers
 {
+    [Authorize(Roles = "登录")]
     public class HomeController : Controller
     {
         private IUserInfoService _service;
         private ILogInfoService _serviceLogInfo;
-        public HomeController(IUserInfoService service,ILogInfoService serviceLogInfo)
+        public HomeController(IUserInfoService service, ILogInfoService serviceLogInfo)
         {
             this._service = service;
             this._serviceLogInfo = serviceLogInfo;
@@ -80,6 +81,38 @@ namespace SystemIntegration.Web.Controllers
         }
 
         /// <summary>
+        /// 根据员工编号从考勤系统中提取用户姓名
+        /// </summary>
+        /// <param name="userNum"></param>
+        /// <returns></returns>
+        private string KaoqinGetUserName(string userNum)
+        {
+            string strConnection = "user id=KqLogin;password=rjkf3877;initial catalog = GM_MT; Server = 10.126.10.54";
+            using (SqlConnection conn = new SqlConnection(strConnection))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlCommand sqlComm = conn.CreateCommand())
+                    {
+                        sqlComm.CommandText = "select EmployeeName from View_userinfo where EmployeeID=@userID";
+                        sqlComm.CommandType = CommandType.Text;
+
+                        //工号
+                        SqlParameter employeeId = sqlComm.Parameters.Add(new SqlParameter("@userID", SqlDbType.NVarChar, 50));
+                        employeeId.Value = userNum;
+
+                        return sqlComm.ExecuteScalar().ToString();
+                    }
+                }
+                catch
+                {
+                    return userNum;//当考勤数据库异常无法连接时，返回员工编号
+                }
+            }
+        }
+
+        /// <summary>
         /// 加载登录页面
         /// </summary>
         [AllowAnonymous]
@@ -96,20 +129,21 @@ namespace SystemIntegration.Web.Controllers
         /// <param name="pwd"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [AllowAnonymous][HttpPost]
+        [AllowAnonymous]
+        [HttpPost]
         public ActionResult Login(string userNum, string pwd, string returnUrl)
         {
             //通过考勤数据库验证员工编号、考勤密码
             var result = "yes";
             //result = KaoqinCheck(userNum, pwd);//系统测试时，注释。正式运行时，取消注释。
-
+            var userName = string.Empty;
             if (result == "yes")
             {
                 #region 判断用户是否存在，如果不存在则添加用户
                 var userInfo = _service.GetUserInfoByNum(userNum);
                 if (userInfo == null)
                 {
-                    var userName = userNum;//通过考勤系统查询员工姓名
+                    userName = KaoqinGetUserName(userNum);//通过考勤系统查询员工姓名
                     _service.Insert(userNum, userName, "0", pwd, "日志,登录");//增加用户信息
                     userInfo = _service.GetUserInfoByNum(userNum);
                 }
@@ -120,9 +154,6 @@ namespace SystemIntegration.Web.Controllers
                 }
                 #endregion
 
-                //将用户的全部信息存入session，便于在其他页面调用
-                //System.Web.HttpContext.Current.Session["user"] = userInfo;
-
                 #region 加载、设置用户权限
                 var userAuthorityString = userInfo.UserRole;
 
@@ -130,16 +161,13 @@ namespace SystemIntegration.Web.Controllers
                 FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(2,
                     userNum,
                     DateTime.Now,
-                    DateTime.Now.AddMinutes(2),
+                    DateTime.Now.AddMinutes(10),
                     false,
                     userAuthorityString);
 
                 string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
                 System.Web.HttpCookie authCookie = new System.Web.HttpCookie("dandian", encryptedTicket);
-                //if (authTicket.IsPersistent)
-                //{
-                //    authCookie.Expires = authTicket.Expiration;
-                //}
+                //authCookie.Expires = authTicket.Expiration;
                 System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
                 #endregion
 
@@ -154,7 +182,7 @@ namespace SystemIntegration.Web.Controllers
                 logInfo.LogDateTime = DateTime.Now;
                 logInfo.LogContent = "单点平台登录";
                 logInfo.LogPersonNum = userNum;
-                logInfo.LogPersonName = userNum;
+                logInfo.LogPersonName =userName;
                 logInfo.LogType = "登录";
                 logInfo.LogIP = Request.UserHostAddress;
                 _serviceLogInfo.Insert(logInfo);
@@ -205,7 +233,8 @@ namespace SystemIntegration.Web.Controllers
             return tmp.ToString();
         }
 
-        [AllowAnonymous][HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
         public string GetMd5(string pwd)
         {
             return MD5Encrypt(pwd + "178DCC60-699E-49F9-BE86-02D58A86AD32");
@@ -216,11 +245,12 @@ namespace SystemIntegration.Web.Controllers
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        [AllowAnonymous][HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
         public string WebServiceInsertSql(string sql)
         {
             WsInsertStringSoapClient ws = new WsInsertStringSoapClient();
-            return ws.InsertSql(sql)+"--"+ws.HelloWorld();
+            return ws.InsertSql(sql) + "--" + ws.HelloWorld();
         }
     }
 }

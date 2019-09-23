@@ -285,6 +285,7 @@
                             return;
                         }
                         else {
+                            $.removeCookie('dandian', { path: '/' }); //path为指定路径，直接删除该路径下的cookie
                             window.location.href = "/Home/LoginOut";
                         }
                     });

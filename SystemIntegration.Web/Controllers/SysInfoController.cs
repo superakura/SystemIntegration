@@ -184,6 +184,12 @@ namespace SystemIntegration.Web.Controllers
             var sysID = 0;
             int.TryParse(Request.Form["SysID"], out sysID);
 
+            var sysInfo = service.GetSysInfo(sysID);
+            if (sysInfo.IsLogin=="考勤登录")
+            {
+                loginName = User.Identity.Name;
+            }
+
             var userInfo = serviceUser.GetUserInfoByNum(User.Identity.Name);
 
             var ip = Request.UserHostAddress;

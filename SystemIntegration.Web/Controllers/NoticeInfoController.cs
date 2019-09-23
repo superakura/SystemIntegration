@@ -9,6 +9,7 @@ using SystemIntegration.Service.ViewModels;
 
 namespace SystemIntegration.Web.Controllers
 {
+    [Authorize(Roles = "系统维护")]
     public class NoticeInfoController : Controller
     {
         private INoticeInfoService _serviceNotice;

@@ -358,7 +358,7 @@ namespace SystemIntegration.Service
         {
             var sysInfo = repoSys.GetByID(sysID);
             var sysUserInfo = repoUserSys.GetList().Where(w => w.SysInfoID == sysID && w.UserNum == userNum).FirstOrDefault();
-            if (sysInfo.IsLogin == "是")
+            if (sysInfo.IsLogin == "是"|| sysInfo.IsLogin == "考勤登录")
             {
                 var resultLoginCheck = CheckLoginByStoredProcedure(
                 sysInfo.LoginCheckDataBaseIP,
@@ -379,7 +379,6 @@ namespace SystemIntegration.Service
                     logInfo.LogDateTime = DateTime.Now;
                     logInfo.LogContent = "访问系统：" + sysInfo.SysName;
                     logInfo.LogPersonNum = userNum;
-                    logInfo.LogPersonName = userNum;
                     logInfo.LogType = "系统访问";
                     logInfo.LogSysID = sysID;
 

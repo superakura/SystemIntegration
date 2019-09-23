@@ -23,6 +23,7 @@ namespace TenderInfo.App_Start
                       "~/Scripts/jquery-1.11.3.min.js",
                       //"~/Scripts/jquery-3.3.1.min.js",
                       "~/Scripts/jquery-form.js",
+                      "~/Scripts/jquery.cookie.js",
                       "~/Scripts/jquery.validate.min.js",
                       "~/Scripts/jquery.validate.messages_cn.js",
 

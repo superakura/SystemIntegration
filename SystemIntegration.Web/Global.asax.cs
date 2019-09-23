@@ -52,10 +52,26 @@ namespace SystemIntegration.Web
         //    }
         //}
 
+        public static FormsAuthenticationTicket RenewTicketIfOld(FormsAuthenticationTicket tOld)
+        {
+            if (tOld == null)
+            {
+                return null;
+            }
+            DateTime now = DateTime.Now;
+            TimeSpan span = (TimeSpan)(now - tOld.IssueDate);
+            TimeSpan span2 = (TimeSpan)(tOld.Expiration - now);
+            if (span2 > span)
+            {
+                return tOld;
+            }
+            return new FormsAuthenticationTicket(tOld.Version, tOld.Name, now, now + (tOld.Expiration - tOld.IssueDate), tOld.IsPersistent, tOld.UserData, tOld.CookiePath);
+        }
+
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             HttpCookie authCookie = Context.Request.Cookies["dandian"];
-            //HttpCookie authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
+
             var isAjax = Context.Request.Headers.Get("x-requested-with");
             if (isAjax == "XMLHttpRequest")
             {
@@ -69,7 +85,6 @@ namespace SystemIntegration.Web
                     Context.Response.StatusCode = 499;
                 }
             }
-
 
             if (authCookie == null || authCookie.Value == "")
             {
@@ -86,15 +101,24 @@ namespace SystemIntegration.Web
                 {
                     return;
                 }
-
                 string[] roles = authTicket.UserData.Split(new char[] { ',' });
 
-                Context.User = new GenericPrincipal(new GenericIdentity(authTicket.Name), roles);
+                #region 设置登录cookie滑动过期
+                //FormsAuthenticationTicket ticket = null;
+                //ticket = FormsAuthentication.RenewTicketIfOld(authTicket);
 
-                //if (Context.User == null)
-                //{
-                //    Context.User = new GenericPrincipal(new GenericIdentity(authTicket.Name), roles);
-                //}
+                //string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+                //System.Web.HttpCookie cookie = new System.Web.HttpCookie("dandian", encryptedTicket);
+                //cookie.Expires = ticket.Expiration;
+                //System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+                #endregion
+
+                //Context.User = new GenericPrincipal(new GenericIdentity(authTicket.Name), roles);
+
+                if (Context.User == null)
+                {
+                    Context.User = new GenericPrincipal(new GenericIdentity(authTicket.Name), roles);
+                }
                 //if (Context.User != null)
                 //{
                 //    Context.User = new System.Security.Principal.GenericPrincipal(Context.User.Identity, roles);
