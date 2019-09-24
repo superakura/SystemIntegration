@@ -354,7 +354,7 @@ namespace SystemIntegration.Service
         /// <param name="userNum"></param>
         /// <param name="ip"></param>
         /// <returns></returns>
-        public string RedirectToSys(int sysID,string userNum,string ip)
+        public string RedirectToSys(int sysID,string userNum,string userName,string ip)
         {
             var sysInfo = repoSys.GetByID(sysID);
             var sysUserInfo = repoUserSys.GetList().Where(w => w.SysInfoID == sysID && w.UserNum == userNum).FirstOrDefault();
@@ -379,6 +379,7 @@ namespace SystemIntegration.Service
                     logInfo.LogDateTime = DateTime.Now;
                     logInfo.LogContent = "访问系统：" + sysInfo.SysName;
                     logInfo.LogPersonNum = userNum;
+                    logInfo.LogPersonName = userName;
                     logInfo.LogType = "系统访问";
                     logInfo.LogSysID = sysID;
 
@@ -410,7 +411,7 @@ namespace SystemIntegration.Service
         /// <param name="userNum"></param>
         /// <param name="ip"></param>
         /// <returns></returns>
-        public string RemoveUserSys(int sysID, string userNum, string ip)
+        public string RemoveUserSys(int sysID, string userNum,string userName, string ip)
         {
             try
             {

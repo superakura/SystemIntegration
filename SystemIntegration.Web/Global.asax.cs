@@ -18,7 +18,6 @@ namespace SystemIntegration.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        //private string userNum;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -37,20 +36,11 @@ namespace SystemIntegration.Web
             //将AutoFac解析器设置为系统DI解析器
             DependencyResolver.SetResolver(autoFacResolver);
         }
+
         public MvcApplication()
         {
             AuthorizeRequest += new EventHandler(Application_AuthenticateRequest);
         }
-
-        //void FormsAuthentication_Authenticate(object sender, FormsAuthenticationEventArgs e)
-        //{
-        //    if (!string.IsNullOrEmpty(userNum))
-        //    {
-        //        //FormsAuthentication.SetAuthCookie(userNum, true);
-        //        e.User = new GenericPrincipal(new GenericIdentity(userNum), null);
-        //        return;
-        //    }
-        //}
 
         public static FormsAuthenticationTicket RenewTicketIfOld(FormsAuthenticationTicket tOld)
         {

@@ -161,13 +161,16 @@ namespace SystemIntegration.Web.Controllers
                 FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(2,
                     userNum,
                     DateTime.Now,
-                    DateTime.Now.AddMinutes(10),
+                    DateTime.Now.AddMinutes(40),
                     false,
                     userAuthorityString);
 
                 string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
                 System.Web.HttpCookie authCookie = new System.Web.HttpCookie("dandian", encryptedTicket);
+
+                //如注释，则cookie、登录ticket为会话级别。取消注释，cookie、登录ticket存在自动退出时间
                 //authCookie.Expires = authTicket.Expiration;
+
                 System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
                 #endregion
 
@@ -182,7 +185,7 @@ namespace SystemIntegration.Web.Controllers
                 logInfo.LogDateTime = DateTime.Now;
                 logInfo.LogContent = "单点平台登录";
                 logInfo.LogPersonNum = userNum;
-                logInfo.LogPersonName =userName;
+                logInfo.LogPersonName = userInfo.UserName;
                 logInfo.LogType = "登录";
                 logInfo.LogIP = Request.UserHostAddress;
                 _serviceLogInfo.Insert(logInfo);

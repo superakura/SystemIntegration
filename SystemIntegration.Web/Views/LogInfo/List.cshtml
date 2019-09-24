@@ -56,11 +56,11 @@
 
         var columns = [
             {
-                field: 'LogPersonName',
+                field: 'LogPersonNum',
                 title: '员工编号'
             },
             {
-                field: 'LogPersonNum',
+                field: 'LogPersonName',
                 title: '姓名'
             },
             {
@@ -71,7 +71,7 @@
                 field: 'LogDateTime',
                 title: '日志时间',
                 formatter: function (value, row, index) {
-                    return getJsonDateTime(row.LogDateTime);
+                    return moment(row.LogDateTime).format("YYYY-MM-DD HH:mm:ss");
                 }
             },
             {

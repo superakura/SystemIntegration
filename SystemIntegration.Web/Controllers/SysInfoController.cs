@@ -24,10 +24,12 @@ namespace SystemIntegration.Web.Controllers
         {
             return View();
         }
+
         public ViewResult ListUserAll()
         {
             return View();
         }
+
         public ViewResult ListUser()
         {
             return View();
@@ -63,8 +65,8 @@ namespace SystemIntegration.Web.Controllers
             return "ok";
         }
 
-        [HttpPost]
-        [Authorize(Roles = "系统维护")]
+
+        [HttpPost][Authorize(Roles = "系统维护")]
         public JsonResult GetSysList()
         {
             var input = new VSysInfoListCondition();
@@ -89,7 +91,7 @@ namespace SystemIntegration.Web.Controllers
             return Json(service.GetSysInfo(sysID));
         }
 
-        [HttpPost]
+        [HttpPost][Authorize(Roles = "系统维护")]
         public string InsertSysInfo()
         {
             VSysInfo info = new VSysInfo();
@@ -101,12 +103,13 @@ namespace SystemIntegration.Web.Controllers
             info.SysState = Request.Form["tbxSysState"];
             info.SysType = Request.Form["ddlSysType"];
             info.LoginUrl = Request.Form["tbxLoginUrl"];
-            int.TryParse(Request.Form["tbxSysOrder"], out int order);
+            var order = 0;
+            int.TryParse(Request.Form["tbxSysOrder"], out order);
             info.SysOrder = order;
             return service.InsertSysInfo(info);
         }
 
-        [HttpPost]
+        [HttpPost][Authorize(Roles = "系统维护")]
         public string UpdateSysInfo()
         {
             var id = 0;
@@ -125,13 +128,14 @@ namespace SystemIntegration.Web.Controllers
             info.LoginType= Request.Form["tbxLoginType"];
             info.SysUrl= Request.Form["tbxSysUrl"];
 
-            int.TryParse(Request.Form["tbxSysOrder"], out int order);
+            var order = 0;
+            int.TryParse(Request.Form["tbxSysOrder"], out order);
             info.SysOrder = order;
 
             return service.UpdateSysInfo(info);
         }
 
-        [HttpPost]
+        [HttpPost][Authorize(Roles = "系统维护")]
         public string SaveSysInfo()
         {
             try
@@ -164,7 +168,8 @@ namespace SystemIntegration.Web.Controllers
                 info.SysType = Request.Form["ddlSysType"];
                 info.IsLogin = Request.Form["ddlIsLogin"];
 
-                int.TryParse(Request.Form["tbxSysOrder"], out int order);
+                var order = 0;
+                int.TryParse(Request.Form["tbxSysOrder"], out order);
                 info.SysOrder = order;
 
                 return id==0?service.InsertSysInfo(info): service.UpdateSysInfo(info);
@@ -191,10 +196,11 @@ namespace SystemIntegration.Web.Controllers
             }
 
             var userInfo = serviceUser.GetUserInfoByNum(User.Identity.Name);
+            var userName = userInfo.UserName;//用户的姓名
 
             var ip = Request.UserHostAddress;
 
-            return service.BindUserSys(userInfo.UserNum,ip,userInfo.UserName,loginName,loginPwd,sysID);
+            return service.BindUserSys(userInfo.UserNum,ip, userName, loginName,loginPwd,sysID);
         }
 
         public string RedirecToSys()
@@ -215,9 +221,10 @@ namespace SystemIntegration.Web.Controllers
             int.TryParse(Request.Form["sysID"], out sysID);
 
             var userNum = User.Identity.Name;
+            var userName = HttpUtility.UrlDecode(Request.Cookies["dandianUserName"].Value);
             var userIP = Request.UserHostAddress;
 
-            return service.RedirectToSys(sysID, userNum, userIP);
+            return service.RedirectToSys(sysID, userNum,userName, userIP);
         }
 
         public string RemoveUserSys()
@@ -227,7 +234,8 @@ namespace SystemIntegration.Web.Controllers
 
             var userNum = User.Identity.Name;
             var userIP = Request.UserHostAddress;
-            return service.RemoveUserSys(sysID, userNum, userIP);
+            var userName = HttpUtility.UrlDecode(Request.Cookies["dandianUserName"].Value);
+            return service.RemoveUserSys(sysID, userNum,userName,userIP);
         }
     }
 }

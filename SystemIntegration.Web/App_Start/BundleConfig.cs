@@ -21,25 +21,28 @@ namespace TenderInfo.App_Start
 
             bundles.Add(new ScriptBundle("~/bundles/LayoutJS").Include(
                       "~/Scripts/jquery-1.11.3.min.js",
-                      //"~/Scripts/jquery-3.3.1.min.js",
-                      "~/Scripts/jquery-form.js",
-                      "~/Scripts/jquery.cookie.js",
+                      "~/Scripts/jquery-form.js",//form异步提交工具
+                      "~/Scripts/jquery.cookie.js",//cookie处理工具
+
+                      //表单验证工具
                       "~/Scripts/jquery.validate.min.js",
                       "~/Scripts/jquery.validate.messages_cn.js",
 
                       "~/Scripts/bootstrap.min.js",
                       "~/bootstrap-table-dist/bootstrap-table.min.js",
                       "~/bootstrap-table-dist/locale/bootstrap-table-zh-CN.min.js",
-                      "~/Scripts/moment-with-locales.js",
+
+                      "~/Scripts/moment-with-locales.js",//日期时间处理工具
+
                       "~/Scripts/bootstrap-datetimepicker.min.js",
                       "~/Scripts/bootstrap-datetimepicker.zh-CN.js",
 
                       "~/AdminLTE-dist/js/adminlte.min.js",
-                      //"~/AdminLTE-dist/js/demo.js",
 
-                      "~/Scripts/toastr.min.js",
-                      "~/Scripts/echarts.min.js",
-                      "~/Scripts/Ewin.js"));
+                      "~/Scripts/toastr.min.js",//消息提示工具
+                      "~/Scripts/echarts.min.js",//图标工具
+                      "~/Scripts/Ewin.js"//确认信息提示工具
+                      ));
         }
     }
 }
