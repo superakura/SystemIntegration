@@ -3,6 +3,7 @@
     ViewBag.Title = "通知管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <link href="~/Scripts/utf8-asp/themes/default/css/ueditor.min.css" rel="stylesheet" />
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <form id="formInfo">
@@ -26,7 +27,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="tbxNoticeContent">公告内容</label>
-                                        <textarea class="form-control" name="tbxNoticeContent" id="tbxNoticeContent" rows="5" cols="30"></textarea>
+                                        <script id="editor" type="text/plain" style="height:400px;">
+                                        </script>
+                                        <input type="text" class="form-control hidden" name="tbxContentCount" id="tbxContentCount">
+                                        <textarea class="form-control hidden" name="tbxNoticeContent" id="tbxNoticeContent" rows="5" cols="30"></textarea>
                                     </div>
                                     <input class="hidden" id="tbxNoticeInfoID" name="tbxNoticeInfoID">
                                 </div>
@@ -84,8 +88,12 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/utf8-asp/ueditor.config.js"></script>
+<script src="~/Scripts/utf8-asp/ueditor.all.min.js"></script>
 <script>
     $(function () {
+        var ue = UE.getEditor('editor');
+
         $("#btnAdd").click(function () {
             clearInfo();
             $('#myModal').modal('show');
@@ -95,8 +103,14 @@
             $("#formInfo textarea").val("");
             $("label.error").hide();
             $(".error").removeClass("error");
+            UE.getEditor("editor").setContent("");
         }
         $("#btnSubmit").click(function () {
+            var content = UE.getEditor("editor").getContent();
+            var contentCount = UE.getEditor("editor").getContentLength(true);
+            $("#tbxNoticeContent").val(content);
+            $("#tbxContentCount").val(contentCount);
+
             $("#formInfo").validate({
                 rules: {
                     tbxNoticeTitle: { required: true, maxlength: 200 }
@@ -107,6 +121,8 @@
                             return;
                         }
                         else {
+                            //console.log($("#tbxNoticeContent").val() + $("#tbxContentCount").val());
+
                             $("#formInfo").ajaxSubmit({
                                 url: "/NoticeInfo/Save",
                                 type: "post",
@@ -139,6 +155,8 @@
                 $('#myModal').modal('show');
                 $("#NoticeID").val(row.NoticeInfoID);
                 $.post("/NoticeInfo/GetOne", { "id": row.NoticeInfoID }, function (result) {
+                    //console.log(result);
+                    UE.getEditor("editor").setContent(result["NoticeContent"]);
                     $.each(result, function (name, val) {
                         $("#tbx" + name).val(val);
                         $("#ddl" + name).val(val);
@@ -152,7 +170,7 @@
                         return;
                     }
                     else {
-                        $.post("/NoticeInfo/Del",{ "id": row.NoticeInfoID }, function (result) {
+                        $.post("/NoticeInfo/Del", { "id": row.NoticeInfoID }, function (result) {
                             if (result == "ok") {
                                 toastr["success"]("删除成功", "提示");
                                 $("#bsTable").bootstrapTable('refresh');
@@ -206,7 +224,7 @@
                 field: 'InsertDate',
                 title: '操作时间',
                 formatter: function (value, row, index) {
-                    return getJsonDateTime(row.InsertDate);
+                    return moment(row.LogDateTime).format("YYYY-MM-DD HH:mm:ss");
                 }
             },
             {

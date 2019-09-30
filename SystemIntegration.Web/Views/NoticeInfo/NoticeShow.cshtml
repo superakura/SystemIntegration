@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title id="titleInfo"></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+        <script src="/Scripts/html5shiv.js"></script>
+        <script src="/Scripts/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 id="title" class="text-primary"></h2>
+                <hr />
+                <small id="inputPerson"></small>&nbsp;|&nbsp;<small id="inputDate"></small>
+                <br />
+                <br />
+                <div id="content" class="well">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            loadNotice(getUrlParam("id"));
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            };
+            function loadNotice(noticeID) {
+                $.post("/NoticeInfo/GetOne", { "id": noticeID }, function (result) {
+                    var dayMilliseconds = parseInt(result.InsertDate.replace(/\D/igm, ""));
+                    var day = new Date(dayMilliseconds);
+                    $("#title,#titleInfo").text(result.NoticeTitle);
+                    $("#content").html(result.NoticeContent);
+                    $("#inputPerson").html("发布人：" + result.InsertPersonNum);
+                    $("#inputDate").html("发布日期：" + day.toLocaleString());
+                });
+            }
+        });
+    </script>
+</body>
+</html>

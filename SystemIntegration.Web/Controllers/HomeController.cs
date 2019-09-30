@@ -213,6 +213,7 @@ namespace SystemIntegration.Web.Controllers
         /// 浏览器版本错误提示页面
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public ViewResult ErrorIE()
         {
             return View();

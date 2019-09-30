@@ -81,6 +81,7 @@ namespace SystemIntegration.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public string Save()
         {
             try
@@ -92,6 +93,11 @@ namespace SystemIntegration.Web.Controllers
                 info.InsertPersonNum = User.Identity.Name;
                 info.InsertDate = DateTime.Now;
                 info.NoticeContent= Request.Form["tbxNoticeContent"].ToString();
+
+                var contentCount = 0;
+                int.TryParse(Request.Form["tbxContentCount"].ToString(),out contentCount);
+                info.ContentCount= contentCount;
+
                 info.NoticeTitle= Request.Form["tbxNoticeTitle"].ToString();
                 info.ContentType= Request.Form["tbxContentType"].ToString();
 
@@ -116,6 +122,12 @@ namespace SystemIntegration.Web.Controllers
             {
                 return ex.Message;
             }
+        }
+
+        [AllowAnonymous]
+        public ViewResult NoticeShow()
+        {
+            return View();
         }
     }
 }
